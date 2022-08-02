@@ -6,7 +6,8 @@ public class ThreadPoolConfigDto {
     private Integer corePoolSize;
     private Long keepAliveTime;
 
-    public ThreadPoolConfigDto(Integer corePoolSize, Long keepAliveTime) {
+    public ThreadPoolConfigDto(Integer corePoolSize, Long
+            keepAliveTime) {
         this.corePoolSize = corePoolSize;
         this.keepAliveTime = keepAliveTime;
     }
