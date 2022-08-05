@@ -1,0 +1,52 @@
+package executor.service.model;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class ProxyConfigHolderTest {
+    private static ProxyNetworkConfig proxyNetworkConfig = new ProxyNetworkConfig("localhost",4412);
+    private static ProxyCredentials proxyCredentials = new ProxyCredentials("login","pass");
+    private static ProxyConfigHolder proxyConfigHolder;
+    private static ProxyConfigHolder proxyConfigHolder2;
+
+    @BeforeEach
+    void setUp() {
+        proxyConfigHolder = new ProxyConfigHolder(proxyNetworkConfig,proxyCredentials);
+        proxyConfigHolder2 = new ProxyConfigHolder(proxyNetworkConfig,proxyCredentials);
+    }
+
+    @Test
+    public void equalsTest(){
+        assertEquals(proxyConfigHolder,proxyConfigHolder2);
+    }
+
+    @Test
+    public void hashCodeTest(){
+        assertEquals(proxyConfigHolder.hashCode(),proxyConfigHolder2.hashCode());
+    }
+
+    @Test
+    public void setGetProxyNetworkConfigTest(){
+        proxyNetworkConfig.setHostname("localHost2");
+        proxyNetworkConfig.setPort(441);
+        proxyConfigHolder.setProxyNetworkConfig(proxyNetworkConfig);
+
+        assertEquals(proxyConfigHolder.getProxyNetworkConfig().getHostname(),"localHost2");
+        assertEquals(proxyConfigHolder.getProxyNetworkConfig().getPort(),441);
+    }
+
+    @Test
+    public void setGetProxyCredentialsTest(){
+        proxyCredentials.setUsername("login");
+        proxyCredentials.setPassword("new pass");
+        proxyConfigHolder.setProxyCredentials(proxyCredentials);
+
+        assertEquals(proxyConfigHolder2.getProxyCredentials().getUsername(),"login");
+        assertEquals(proxyConfigHolder2.getProxyCredentials().getPassword(),"new pass");
+
+    }
+
+
+}
