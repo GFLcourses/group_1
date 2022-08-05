@@ -7,14 +7,14 @@ import java.util.Optional;
 
 import static org.junit.Assert.*;
 
-class ProxyConfigHolderTest {
+public class ProxyConfigHolderTest {
     private static ProxyNetworkConfig proxyNetworkConfig = new ProxyNetworkConfig("localhost",4412);
     private static ProxyCredentials proxyCredentials = new ProxyCredentials("login","pass");
     private static ProxyConfigHolder proxyConfigHolder;
     private static ProxyConfigHolder proxyConfigHolder2;
 
     @Before
-    void setUp() {
+    public void setUp() {
         proxyConfigHolder = new ProxyConfigHolder(proxyNetworkConfig,proxyCredentials);
         proxyConfigHolder2 = new ProxyConfigHolder(proxyNetworkConfig,proxyCredentials);
     }
@@ -36,7 +36,7 @@ class ProxyConfigHolderTest {
         proxyConfigHolder.setProxyNetworkConfig(proxyNetworkConfig);
 
         assertEquals(proxyConfigHolder.getProxyNetworkConfig().getHostname(),"localHost2");
-        assertEquals(Optional.ofNullable(proxyConfigHolder.getProxyNetworkConfig().getPort()),441);
+        assertEquals(proxyConfigHolder.getProxyNetworkConfig().getPort().intValue(),441);
     }
 
     @Test
