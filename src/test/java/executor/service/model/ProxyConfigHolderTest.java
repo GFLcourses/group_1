@@ -1,9 +1,11 @@
 package executor.service.model;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.Optional;
+
+import static org.junit.Assert.*;
 
 class ProxyConfigHolderTest {
     private static ProxyNetworkConfig proxyNetworkConfig = new ProxyNetworkConfig("localhost",4412);
@@ -11,7 +13,7 @@ class ProxyConfigHolderTest {
     private static ProxyConfigHolder proxyConfigHolder;
     private static ProxyConfigHolder proxyConfigHolder2;
 
-    @BeforeEach
+    @Before
     void setUp() {
         proxyConfigHolder = new ProxyConfigHolder(proxyNetworkConfig,proxyCredentials);
         proxyConfigHolder2 = new ProxyConfigHolder(proxyNetworkConfig,proxyCredentials);
@@ -34,7 +36,7 @@ class ProxyConfigHolderTest {
         proxyConfigHolder.setProxyNetworkConfig(proxyNetworkConfig);
 
         assertEquals(proxyConfigHolder.getProxyNetworkConfig().getHostname(),"localHost2");
-        assertEquals(proxyConfigHolder.getProxyNetworkConfig().getPort(),441);
+        assertEquals(Optional.ofNullable(proxyConfigHolder.getProxyNetworkConfig().getPort()),441);
     }
 
     @Test
