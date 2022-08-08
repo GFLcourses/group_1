@@ -1,6 +1,7 @@
 package executor.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import executor.service.model.WebDriverConfigDTO;
 import org.junit.Test;
@@ -215,5 +216,49 @@ public class WebDriverConfigDTOTest {
         int actual = webDriverConfigDTO.hashCode();
 
         assertEquals(expected, actual);
+    }
+
+    @Test
+    public void equalsShouldReturnTrueIfBothNonEmptyObjectsEquals() {
+        WebDriverConfigDTO webDriverConfigDTO = new WebDriverConfigDTO("driver", "agent", 1l, 1l);
+        WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO("driver", "agent", 1l, 1l);
+
+        boolean expected = true;
+        boolean actual = webDriverConfigDTO.equals(otherWebDriverConfigDTO);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void equalsShouldReturnFalseIfBothNonEmptyObjectsNotEquals() {
+        WebDriverConfigDTO webDriverConfigDTO = new WebDriverConfigDTO("driver", "agent", 1l, 1l);
+        WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO("driver2", "agent2", 1l, 1l);
+
+        boolean expected = true;
+        boolean actual = webDriverConfigDTO.equals(otherWebDriverConfigDTO);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void hashCodeShouldReturnSameNumberIfBothNonEmptyObjectsEquals() {
+        WebDriverConfigDTO webDriverConfigDTO = new WebDriverConfigDTO("driver", "agent", 1l, 1l);
+        WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO("driver", "agent", 1l, 1l);
+
+        int expected = webDriverConfigDTO.hashCode();
+        int actual = otherWebDriverConfigDTO.hashCode();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void hashCodeShouldReturnDifferentNumberIfBothNonEmptyObjectsNotEquals() {
+        WebDriverConfigDTO webDriverConfigDTO = new WebDriverConfigDTO("driver", "agent", 1l, 1l);
+        WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO("driver2", "agent2", 1l, 1l);
+
+        int expected = webDriverConfigDTO.hashCode();
+        int actual = otherWebDriverConfigDTO.hashCode();
+
+        assertNotEquals(expected, actual);
     }
 }
