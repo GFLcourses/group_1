@@ -234,7 +234,7 @@ public class WebDriverConfigDTOTest {
         WebDriverConfigDTO webDriverConfigDTO = new WebDriverConfigDTO("driver", "agent", 1l, 1l);
         WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO("driver2", "agent2", 1l, 1l);
 
-        boolean expected = true;
+        boolean expected = false;
         boolean actual = webDriverConfigDTO.equals(otherWebDriverConfigDTO);
 
         assertEquals(expected, actual);
