@@ -1,4 +1,4 @@
-package executor.service;
+package executor.service.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -36,10 +36,10 @@ public class WebDriverConfigDTOTest {
 
     @Test
     public void getPageLoadTimeoutShouldReturnPageLoadTimeoutFieldValue() {
-        Long expected = 1l;
+        Long expected = 1L;
 
         WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO();
-        otherWebDriverConfigDTO.setPageLoadTimeout(1l);
+        otherWebDriverConfigDTO.setPageLoadTimeout(1L);
 
         Long actual = otherWebDriverConfigDTO.getPageLoadTimeout();
 
@@ -48,7 +48,7 @@ public class WebDriverConfigDTOTest {
 
     @Test
     public void getImplicitlyWaitShouldReturnImplicitlyWaitFieldValue() {
-        Long expected = 1l;
+        Long expected = 1L;
 
         WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO();
         otherWebDriverConfigDTO.setImplicitlyWait(expected);
@@ -84,10 +84,10 @@ public class WebDriverConfigDTOTest {
 
     @Test
     public void setPageLoadTimeoutShouldSetPageLoadTimeoutFieldValue() {
-        Long expected = 1l;
+        Long expected = 1L;
 
         WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO();
-        otherWebDriverConfigDTO.setPageLoadTimeout(1l);
+        otherWebDriverConfigDTO.setPageLoadTimeout(1L);
 
         Long actual = otherWebDriverConfigDTO.getPageLoadTimeout();
 
@@ -96,7 +96,7 @@ public class WebDriverConfigDTOTest {
 
     @Test
     public void setImplicitlyWaitShouldSetImplicitlyWaitFieldValue() {
-        Long expected = 1l;
+        Long expected = 1L;
 
         WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO();
         otherWebDriverConfigDTO.setImplicitlyWait(expected);
@@ -169,7 +169,7 @@ public class WebDriverConfigDTOTest {
         boolean expected = false;
 
         WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO();
-        otherWebDriverConfigDTO.setPageLoadTimeout(1l);
+        otherWebDriverConfigDTO.setPageLoadTimeout(1L);
 
         boolean actual = webDriverConfigDTO.equals(otherWebDriverConfigDTO);
 
@@ -181,7 +181,7 @@ public class WebDriverConfigDTOTest {
         boolean expected = false;
 
         WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO();
-        otherWebDriverConfigDTO.setImplicitlyWait(1l);
+        otherWebDriverConfigDTO.setImplicitlyWait(1L);
 
         boolean actual = webDriverConfigDTO.equals(otherWebDriverConfigDTO);
 
@@ -220,8 +220,8 @@ public class WebDriverConfigDTOTest {
 
     @Test
     public void equalsShouldReturnTrueIfBothNonEmptyObjectsEquals() {
-        WebDriverConfigDTO webDriverConfigDTO = new WebDriverConfigDTO("driver", "agent", 1l, 1l);
-        WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO("driver", "agent", 1l, 1l);
+        WebDriverConfigDTO webDriverConfigDTO = new WebDriverConfigDTO("driver", "agent", 1L, 1L);
+        WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO("driver", "agent", 1L, 1L);
 
         boolean expected = true;
         boolean actual = webDriverConfigDTO.equals(otherWebDriverConfigDTO);
@@ -231,8 +231,8 @@ public class WebDriverConfigDTOTest {
 
     @Test
     public void equalsShouldReturnFalseIfBothNonEmptyObjectsNotEquals() {
-        WebDriverConfigDTO webDriverConfigDTO = new WebDriverConfigDTO("driver", "agent", 1l, 1l);
-        WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO("driver2", "agent2", 1l, 1l);
+        WebDriverConfigDTO webDriverConfigDTO = new WebDriverConfigDTO("driver", "agent", 1L, 1L);
+        WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO("driver2", "agent2", 1L, 1L);
 
         boolean expected = false;
         boolean actual = webDriverConfigDTO.equals(otherWebDriverConfigDTO);
@@ -242,8 +242,8 @@ public class WebDriverConfigDTOTest {
 
     @Test
     public void hashCodeShouldReturnSameNumberIfBothNonEmptyObjectsEquals() {
-        WebDriverConfigDTO webDriverConfigDTO = new WebDriverConfigDTO("driver", "agent", 1l, 1l);
-        WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO("driver", "agent", 1l, 1l);
+        WebDriverConfigDTO webDriverConfigDTO = new WebDriverConfigDTO("driver", "agent", 1L, 1L);
+        WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO("driver", "agent", 1L, 1L);
 
         int expected = webDriverConfigDTO.hashCode();
         int actual = otherWebDriverConfigDTO.hashCode();
@@ -253,8 +253,8 @@ public class WebDriverConfigDTOTest {
 
     @Test
     public void hashCodeShouldReturnDifferentNumberIfBothNonEmptyObjectsNotEquals() {
-        WebDriverConfigDTO webDriverConfigDTO = new WebDriverConfigDTO("driver", "agent", 1l, 1l);
-        WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO("driver2", "agent2", 1l, 1l);
+        WebDriverConfigDTO webDriverConfigDTO = new WebDriverConfigDTO("driver", "agent", 1L, 1L);
+        WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO("driver2", "agent2", 1L, 1L);
 
         int expected = webDriverConfigDTO.hashCode();
         int actual = otherWebDriverConfigDTO.hashCode();
