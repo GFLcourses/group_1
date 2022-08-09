@@ -8,6 +8,16 @@ public class WebDriverConfigDTO {
     private Long pageLoadTimeout;
     private Long implicitlyWait;
 
+    public WebDriverConfigDTO() {
+    }
+
+    public WebDriverConfigDTO(String webDriverExecutable, String userAgent, Long pageLoadTimeout, Long implicitlyWait) {
+        this.webDriverExecutable = webDriverExecutable;
+        this.userAgent = userAgent;
+        this.pageLoadTimeout = pageLoadTimeout;
+        this.implicitlyWait = implicitlyWait;
+    }
+
     public String getWebDriverExecutable() {
         return webDriverExecutable;
     }
