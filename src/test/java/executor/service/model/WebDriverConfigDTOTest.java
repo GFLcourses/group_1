@@ -1,212 +1,156 @@
 package executor.service.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
-import executor.service.model.WebDriverConfigDTO;
+import org.junit.Before;
 import org.junit.Test;
 
 public class WebDriverConfigDTOTest {
 
-    private final WebDriverConfigDTO webDriverConfigDTO = new WebDriverConfigDTO();
+    private static final Long LOAD_TIMEOUT = 1L;
+    private static final String WEB_DRIVER_EXECUTABLE = "chrome";
+    private static final String WEB_DRIVER_EXECUTABLE_OTHER = "chrome other";
+    private static final String USER_AGENT = "user agent";
+    private static final String USER_AGENT_OTHER = "user agent other";
+    private WebDriverConfigDTO webDriverConfigDTO;
+    private WebDriverConfigDTO otherWebDriverConfigDTO;
+
+    @Before
+    public void setUp() {
+        webDriverConfigDTO = new WebDriverConfigDTO();
+        otherWebDriverConfigDTO = new WebDriverConfigDTO();
+    }
 
     @Test
     public void getWebDriverExecutableShouldReturnWebDriverExecutableFieldValue() {
-        String expected = "chrome";
-
-        WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO();
-        otherWebDriverConfigDTO.setWebDriverExecutable(expected);
-
+        otherWebDriverConfigDTO.setWebDriverExecutable(WEB_DRIVER_EXECUTABLE);
         String actual = otherWebDriverConfigDTO.getWebDriverExecutable();
 
-        assertEquals(expected, actual);
+        assertEquals(WEB_DRIVER_EXECUTABLE, actual);
     }
 
     @Test
     public void getUserAgentShouldReturnUserAgentFieldValue() {
-        String expected = "chrome";
-
-        WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO();
-        otherWebDriverConfigDTO.setUserAgent(expected);
-
+        otherWebDriverConfigDTO.setUserAgent(WEB_DRIVER_EXECUTABLE);
         String actual = otherWebDriverConfigDTO.getUserAgent();
 
-        assertEquals(expected, actual);
+        assertEquals(WEB_DRIVER_EXECUTABLE, actual);
     }
 
     @Test
     public void getPageLoadTimeoutShouldReturnPageLoadTimeoutFieldValue() {
-        Long expected = 1L;
-
-        WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO();
-        otherWebDriverConfigDTO.setPageLoadTimeout(1L);
-
+        otherWebDriverConfigDTO.setPageLoadTimeout(LOAD_TIMEOUT);
         Long actual = otherWebDriverConfigDTO.getPageLoadTimeout();
 
-        assertEquals(expected, actual);
+        assertEquals(LOAD_TIMEOUT, actual);
     }
 
     @Test
     public void getImplicitlyWaitShouldReturnImplicitlyWaitFieldValue() {
-        Long expected = 1L;
-
-        WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO();
-        otherWebDriverConfigDTO.setImplicitlyWait(expected);
-
+        otherWebDriverConfigDTO.setImplicitlyWait(LOAD_TIMEOUT);
         Long actual = otherWebDriverConfigDTO.getImplicitlyWait();
 
-        assertEquals(expected, actual);
+        assertEquals(LOAD_TIMEOUT, actual);
     }
 
     @Test
     public void setWebDriverExecutableShouldSetWebDriverExecutableFieldValue() {
-        String expected = "chrome";
-
-        WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO();
-        otherWebDriverConfigDTO.setWebDriverExecutable(expected);
-
+        otherWebDriverConfigDTO.setWebDriverExecutable(WEB_DRIVER_EXECUTABLE);
         String actual = otherWebDriverConfigDTO.getWebDriverExecutable();
 
-        assertEquals(expected, actual);
+        assertEquals(WEB_DRIVER_EXECUTABLE, actual);
     }
 
     @Test
     public void setUserAgentShouldSetUserAgentFieldValue() {
-        String expected = "chrome";
-
-        WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO();
-        otherWebDriverConfigDTO.setUserAgent(expected);
-
+        otherWebDriverConfigDTO.setUserAgent(WEB_DRIVER_EXECUTABLE);
         String actual = otherWebDriverConfigDTO.getUserAgent();
 
-        assertEquals(expected, actual);
+        assertEquals(WEB_DRIVER_EXECUTABLE, actual);
     }
 
     @Test
     public void setPageLoadTimeoutShouldSetPageLoadTimeoutFieldValue() {
-        Long expected = 1L;
-
-        WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO();
-        otherWebDriverConfigDTO.setPageLoadTimeout(1L);
-
+        otherWebDriverConfigDTO.setPageLoadTimeout(LOAD_TIMEOUT);
         Long actual = otherWebDriverConfigDTO.getPageLoadTimeout();
 
-        assertEquals(expected, actual);
+        assertEquals(LOAD_TIMEOUT, actual);
     }
 
     @Test
     public void setImplicitlyWaitShouldSetImplicitlyWaitFieldValue() {
-        Long expected = 1L;
-
-        WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO();
-        otherWebDriverConfigDTO.setImplicitlyWait(expected);
-
+        otherWebDriverConfigDTO.setImplicitlyWait(LOAD_TIMEOUT);
         Long actual = otherWebDriverConfigDTO.getImplicitlyWait();
 
-        assertEquals(expected, actual);
+        assertEquals(LOAD_TIMEOUT, actual);
     }
 
     @Test
     public void equalsShouldReturnTrueIfParameterHasSameReference(){
-        boolean expected = true;
         boolean actual = webDriverConfigDTO.equals(webDriverConfigDTO);
-
-        assertEquals(expected, actual);
+        assertTrue(actual);
     }
 
     @Test
     public void equalsShouldReturnFalseIfParameterReferenceEqualsNull(){
-        boolean expected = false;
         boolean actual = webDriverConfigDTO.equals(null);
-
-        assertEquals(expected, actual);
+        assertFalse(actual);
     }
 
     @Test
     public void equalsShouldReturnFalseIfParameterIsNotSameClass(){
-        boolean expected = false;
-        boolean actual = webDriverConfigDTO.equals(new String());
-
-        assertEquals(expected, actual);
+        boolean actual = webDriverConfigDTO.equals("");
+        assertFalse(actual);
     }
 
     @Test
     public void equalsShouldReturnTrueIfAllFieldsAreSame(){
-        boolean expected = true;
-
-        WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO();
         boolean actual = webDriverConfigDTO.equals(otherWebDriverConfigDTO);
-
-        assertEquals(expected, actual);
+        assertTrue(actual);
     }
 
     @Test
     public void equalsShouldReturnFalseIfWebDriverExecutableFieldsNotEquals(){
-        boolean expected = false;
-
-        WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO();
-        otherWebDriverConfigDTO.setWebDriverExecutable("chrome");
-
+        otherWebDriverConfigDTO.setWebDriverExecutable(WEB_DRIVER_EXECUTABLE);
         boolean actual = webDriverConfigDTO.equals(otherWebDriverConfigDTO);
-
-        assertEquals(expected, actual);
+        assertFalse(actual);
     }
 
     @Test
     public void equalsShouldReturnFalseIfUserAgentFieldsNotEquals(){
-        boolean expected = false;
-
-        WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO();
-        otherWebDriverConfigDTO.setUserAgent("chrome");
-
+        otherWebDriverConfigDTO.setUserAgent(WEB_DRIVER_EXECUTABLE);
         boolean actual = webDriverConfigDTO.equals(otherWebDriverConfigDTO);
-
-        assertEquals(expected, actual);
+        assertFalse(actual);
     }
 
     @Test
     public void equalsShouldReturnFalseIfPageLoadTimeoutFieldsNotEquals(){
-        boolean expected = false;
-
-        WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO();
-        otherWebDriverConfigDTO.setPageLoadTimeout(1L);
-
+        otherWebDriverConfigDTO.setPageLoadTimeout(LOAD_TIMEOUT);
         boolean actual = webDriverConfigDTO.equals(otherWebDriverConfigDTO);
-
-        assertEquals(expected, actual);
+        assertFalse(actual);
     }
 
     @Test
     public void equalsShouldReturnFalseIfImplicitlyWaitFieldsNotEquals(){
-        boolean expected = false;
-
-        WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO();
-        otherWebDriverConfigDTO.setImplicitlyWait(1L);
-
+        otherWebDriverConfigDTO.setImplicitlyWait(LOAD_TIMEOUT);
         boolean actual = webDriverConfigDTO.equals(otherWebDriverConfigDTO);
-
-        assertEquals(expected, actual);
+        assertFalse(actual);
     }
 
     @Test
     public void hashCodeShouldReturnSameNumberIfBothObjectsAreEquals(){
         int expected = webDriverConfigDTO.hashCode();
-
-        WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO();
-
         int actual = otherWebDriverConfigDTO.hashCode();
-
         assertEquals(expected, actual);
     }
 
     @Test
     public void hashCodeShouldReturnSameNumberIfAllFieldsAreEquals(){
         int expected = webDriverConfigDTO.hashCode();
-
-        WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO();
-
         int actual = otherWebDriverConfigDTO.hashCode();
-
         assertEquals(expected, actual);
     }
 
@@ -214,51 +158,44 @@ public class WebDriverConfigDTOTest {
     public void hashCodeShouldReturnSameNumberIfHashCodeMethodWasCalledTwice(){
         int expected = webDriverConfigDTO.hashCode();
         int actual = webDriverConfigDTO.hashCode();
-
         assertEquals(expected, actual);
     }
 
     @Test
     public void equalsShouldReturnTrueIfBothNonEmptyObjectsEquals() {
-        WebDriverConfigDTO webDriverConfigDTO = new WebDriverConfigDTO("driver", "agent", 1L, 1L);
-        WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO("driver", "agent", 1L, 1L);
+        webDriverConfigDTO = new WebDriverConfigDTO(WEB_DRIVER_EXECUTABLE, USER_AGENT, LOAD_TIMEOUT, LOAD_TIMEOUT);
+        otherWebDriverConfigDTO = new WebDriverConfigDTO(WEB_DRIVER_EXECUTABLE, USER_AGENT, LOAD_TIMEOUT, LOAD_TIMEOUT);
 
-        boolean expected = true;
         boolean actual = webDriverConfigDTO.equals(otherWebDriverConfigDTO);
-
-        assertEquals(expected, actual);
+        assertTrue(actual);
     }
 
     @Test
     public void equalsShouldReturnFalseIfBothNonEmptyObjectsNotEquals() {
-        WebDriverConfigDTO webDriverConfigDTO = new WebDriverConfigDTO("driver", "agent", 1L, 1L);
-        WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO("driver2", "agent2", 1L, 1L);
+        webDriverConfigDTO = new WebDriverConfigDTO(WEB_DRIVER_EXECUTABLE, USER_AGENT, LOAD_TIMEOUT, LOAD_TIMEOUT);
+        otherWebDriverConfigDTO = new WebDriverConfigDTO(WEB_DRIVER_EXECUTABLE_OTHER, USER_AGENT_OTHER, LOAD_TIMEOUT, LOAD_TIMEOUT);
 
-        boolean expected = false;
         boolean actual = webDriverConfigDTO.equals(otherWebDriverConfigDTO);
-
-        assertEquals(expected, actual);
+        assertFalse(actual);
     }
 
     @Test
     public void hashCodeShouldReturnSameNumberIfBothNonEmptyObjectsEquals() {
-        WebDriverConfigDTO webDriverConfigDTO = new WebDriverConfigDTO("driver", "agent", 1L, 1L);
-        WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO("driver", "agent", 1L, 1L);
+        webDriverConfigDTO = new WebDriverConfigDTO(WEB_DRIVER_EXECUTABLE, USER_AGENT, LOAD_TIMEOUT, LOAD_TIMEOUT);
+        otherWebDriverConfigDTO = new WebDriverConfigDTO(WEB_DRIVER_EXECUTABLE, USER_AGENT, LOAD_TIMEOUT, LOAD_TIMEOUT);
 
         int expected = webDriverConfigDTO.hashCode();
         int actual = otherWebDriverConfigDTO.hashCode();
-
         assertEquals(expected, actual);
     }
 
     @Test
     public void hashCodeShouldReturnDifferentNumberIfBothNonEmptyObjectsNotEquals() {
-        WebDriverConfigDTO webDriverConfigDTO = new WebDriverConfigDTO("driver", "agent", 1L, 1L);
-        WebDriverConfigDTO otherWebDriverConfigDTO = new WebDriverConfigDTO("driver2", "agent2", 1L, 1L);
+        webDriverConfigDTO = new WebDriverConfigDTO(WEB_DRIVER_EXECUTABLE, USER_AGENT, LOAD_TIMEOUT, LOAD_TIMEOUT);
+        otherWebDriverConfigDTO = new WebDriverConfigDTO(WEB_DRIVER_EXECUTABLE_OTHER, USER_AGENT_OTHER, LOAD_TIMEOUT, LOAD_TIMEOUT);
 
         int expected = webDriverConfigDTO.hashCode();
         int actual = otherWebDriverConfigDTO.hashCode();
-
         assertNotEquals(expected, actual);
     }
 }
