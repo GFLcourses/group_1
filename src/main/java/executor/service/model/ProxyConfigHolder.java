@@ -3,8 +3,11 @@ package executor.service.model;
 import java.util.Objects;
 
 public class ProxyConfigHolder {
-    ProxyNetworkConfig proxyNetworkConfig;
-    ProxyCredentials proxyCredentials;
+    private ProxyNetworkConfig proxyNetworkConfig;
+    private ProxyCredentials proxyCredentials;
+
+    public ProxyConfigHolder() {
+    }
 
     public ProxyConfigHolder(ProxyNetworkConfig proxyNetworkConfig, ProxyCredentials proxyCredentials) {
         this.proxyNetworkConfig = proxyNetworkConfig;
