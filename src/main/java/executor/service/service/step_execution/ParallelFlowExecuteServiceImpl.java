@@ -3,6 +3,7 @@ package executor.service.service.step_execution;
 import executor.service.model.ThreadPoolConfigDto;
 import executor.service.util.PropertiesReader;
 
+import javax.swing.*;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -34,11 +35,11 @@ public class ParallelFlowExecuteServiceImpl implements ParallelFlowExecuteServic
         this.parallelExecute(task, null);
     }
 
-    @Override
-    public void parallelExecute(Runnable task, Runnable testCallBack) {
-        THREAD_POOL_EXECUTOR.submit(task);
+    protected void parallelExecute(Runnable task, Runnable testCallBack) {
         if (testCallBack != null) {
             testCallBack.run();
+        } else {
+            THREAD_POOL_EXECUTOR.submit(task);
         }
     }
 }
