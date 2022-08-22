@@ -30,7 +30,15 @@ public class ParallelFlowExecuteServiceImpl implements ParallelFlowExecuteServic
     }
 
     @Override
-    public void parallelExecute(Runnable runnable) {
-        THREAD_POOL_EXECUTOR.submit(runnable);
+    public void parallelExecute(Runnable task) {
+        this.parallelExecute(task, null);
+    }
+
+    @Override
+    public void parallelExecute(Runnable task, Runnable testCallBack) {
+        THREAD_POOL_EXECUTOR.submit(task);
+        if (testCallBack != null) {
+            testCallBack.run();
+        }
     }
 }
