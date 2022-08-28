@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 public class StepExecutionClickXpath implements StepExecutable {
     @Override
     public String getStepAction() {
-        return "click";
+        return "clickXpath";
     }
 
     @Override
