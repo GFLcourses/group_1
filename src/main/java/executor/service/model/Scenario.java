@@ -8,6 +8,10 @@ public class Scenario {
     private String site;
     private List<Step> steps;
 
+    public Scenario(){
+
+    }
+
     public Scenario(String name, String site, List<Step> steps) {
         this.name = name;
         this.site = site;
@@ -49,5 +53,14 @@ public class Scenario {
     @Override
     public int hashCode() {
         return Objects.hash(name, site, steps);
+    }
+
+    @Override
+    public String toString() {
+        return "Scenario{" +
+                "name='" + name + '\'' +
+                ", site='" + site + '\'' +
+                ", steps=" + steps +
+                '}';
     }
 }

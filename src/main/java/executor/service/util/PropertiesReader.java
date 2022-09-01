@@ -1,6 +1,6 @@
 package executor.service.util;
 
-import executor.service.model.ThreadPoolConfigDto;
+import executor.service.model.*;
 import org.apache.commons.configuration2.Configuration;
 import org.apache.commons.configuration2.FileBasedConfiguration;
 import org.apache.commons.configuration2.PropertiesConfiguration;
@@ -29,5 +29,23 @@ public final class PropertiesReader {
         Integer poolSize = CONFIGURATION.getInt("threadpool.size");
         Long aliveTime = CONFIGURATION.getLong("threadpool.aliveTime");
         return new ThreadPoolConfigDto(poolSize, aliveTime);
+    }
+
+    public static WebDriverConfigDTO readWebDriverConfig() {
+        String webDriverExecutable = CONFIGURATION.getString("webdriver.executable");
+        String userAgent = CONFIGURATION.getString("webdriver.userAgent");
+        Long pageLoadTimeout = CONFIGURATION.getLong("webdriver.pageLoadTimeout");
+        Long implicitlyWait = CONFIGURATION.getLong("webdriver.implicitlyWait");
+
+        return new WebDriverConfigDTO(webDriverExecutable,userAgent,pageLoadTimeout,implicitlyWait);
+    }
+
+    public static ProxyConfigHolder readProxyConfig() {
+        String hostname = CONFIGURATION.getString("proxy.hostname");
+        Integer port = CONFIGURATION.getInt("proxy.port");
+        String username = CONFIGURATION.getString("proxy.username");
+        String password = CONFIGURATION.getString("proxy.password");
+
+        return new ProxyConfigHolder(new ProxyNetworkConfig(hostname,port), new ProxyCredentials(username,password));
     }
 }
