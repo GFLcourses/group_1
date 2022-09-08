@@ -3,7 +3,7 @@ package executor.service.factory.impl;
 import executor.service.ScenarioSourceListenerImpl;
 import executor.service.factory.Factory;
 import executor.service.service.ChromeWebDriverInitializer;
-import executor.service.service.step_execution.ParallelFlowExecuteServiceImpl;
+import executor.service.service.parallel_stuff.ParallelFlowExecuteServiceImpl;
 import executor.service.service.step_execution.StepExecutionClickCSS;
 import executor.service.service.step_execution.StepExecutionClickXpath;
 import executor.service.service.step_execution.StepExecutionServiceSleep;
