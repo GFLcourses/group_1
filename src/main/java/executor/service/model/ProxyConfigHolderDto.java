@@ -6,8 +6,7 @@ public class ProxyConfigHolderDto {
     private ProxyNetworkConfig proxyNetworkConfig;
     private ProxyCredentials proxyCredentials;
 
-    public ProxyConfigHolderDto() {
-    }
+    public ProxyConfigHolderDto() {  }
 
     public ProxyConfigHolderDto(ProxyNetworkConfig proxyNetworkConfig, ProxyCredentials proxyCredentials) {
         this.proxyNetworkConfig = proxyNetworkConfig;

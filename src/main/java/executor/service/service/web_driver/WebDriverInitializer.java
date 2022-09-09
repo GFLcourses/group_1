@@ -4,5 +4,6 @@ import executor.service.model.ProxyConfigHolderDto;
 import org.openqa.selenium.WebDriver;
 
 public interface WebDriverInitializer {
-    WebDriver initialize(ProxyConfigHolderDto proxyConfigHolderDto);
+
+    WebDriver initialize(ProxyConfigHolderDto proxyConfigHolder);
 }

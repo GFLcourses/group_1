@@ -19,7 +19,6 @@ public class ChromeWebDriverInitializer implements WebDriverInitializer {
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("user-agent=" + webDriverConfigDTO.getUserAgent());
-
         setProxyServer(options, proxyConfigHolder.getProxyNetworkConfig(), proxyConfigHolder.getProxyCredentials());
 
         return new ChromeDriver(options);
