@@ -1,7 +1,6 @@
-package executor.service.factory.impl;
+package executor.service.service.factory;
 
 import executor.service.ScenarioSourceListenerImpl;
-import executor.service.factory.Factory;
 import executor.service.service.web_driver.ChromeWebDriverInitializer;
 import executor.service.service.parallel_stuff.ParallelFlowExecuteServiceImpl;
 import executor.service.service.step_execution.StepExecutionClickCSS;
