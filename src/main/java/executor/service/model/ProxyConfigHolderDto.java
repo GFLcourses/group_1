@@ -2,14 +2,14 @@ package executor.service.model;
 
 import java.util.Objects;
 
-public class ProxyConfigHolder {
+public class ProxyConfigHolderDto {
     private ProxyNetworkConfig proxyNetworkConfig;
     private ProxyCredentials proxyCredentials;
 
-    public ProxyConfigHolder() {
+    public ProxyConfigHolderDto() {
     }
 
-    public ProxyConfigHolder(ProxyNetworkConfig proxyNetworkConfig, ProxyCredentials proxyCredentials) {
+    public ProxyConfigHolderDto(ProxyNetworkConfig proxyNetworkConfig, ProxyCredentials proxyCredentials) {
         this.proxyNetworkConfig = proxyNetworkConfig;
         this.proxyCredentials = proxyCredentials;
     }
@@ -34,7 +34,7 @@ public class ProxyConfigHolder {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ProxyConfigHolder that = (ProxyConfigHolder) o;
+        ProxyConfigHolderDto that = (ProxyConfigHolderDto) o;
         return Objects.equals(proxyNetworkConfig, that.proxyNetworkConfig) && Objects.equals(proxyCredentials, that.proxyCredentials);
     }
 

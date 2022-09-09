@@ -1,6 +1,6 @@
-package executor.service.service;
+package executor.service.service.web_driver;
 
-import executor.service.model.ProxyConfigHolder;
+import executor.service.model.ProxyConfigHolderDto;
 import executor.service.model.ProxyCredentials;
 import executor.service.model.ProxyNetworkConfig;
 import executor.service.model.WebDriverConfigDTO;
@@ -13,14 +13,13 @@ import org.openqa.selenium.chrome.ChromeOptions;
 public class ChromeWebDriverInitializer implements WebDriverInitializer {
 
     @Override
-    public WebDriver initialize() {
+    public WebDriver initialize(ProxyConfigHolderDto proxyConfigHolder) {
         WebDriverConfigDTO webDriverConfigDTO = PropertiesReader.readWebDriverConfig();
         System.setProperty("webdriver.chrome.driver", webDriverConfigDTO.getWebDriverExecutable());
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("user-agent=" + webDriverConfigDTO.getUserAgent());
 
-        ProxyConfigHolder proxyConfigHolder = PropertiesReader.readProxyConfig();
         setProxyServer(options, proxyConfigHolder.getProxyNetworkConfig(), proxyConfigHolder.getProxyCredentials());
 
         return new ChromeDriver(options);
@@ -30,5 +29,4 @@ public class ChromeWebDriverInitializer implements WebDriverInitializer {
         options.addArguments("--proxy-server=" + credentials.getUsername() + ":" + credentials.getPassword() + "@"
                                                 + networkConfig.getHostname() + ":" + networkConfig.getPort());
     }
-
 }

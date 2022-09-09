@@ -40,12 +40,12 @@ public final class PropertiesReader {
         return new WebDriverConfigDTO(webDriverExecutable,userAgent,pageLoadTimeout,implicitlyWait);
     }
 
-    public static ProxyConfigHolder readProxyConfig() {
+    public static ProxyConfigHolderDto readProxyConfig() {
         String hostname = CONFIGURATION.getString("proxy.hostname");
         Integer port = CONFIGURATION.getInt("proxy.port");
         String username = CONFIGURATION.getString("proxy.username");
         String password = CONFIGURATION.getString("proxy.password");
 
-        return new ProxyConfigHolder(new ProxyNetworkConfig(hostname,port), new ProxyCredentials(username,password));
+        return new ProxyConfigHolderDto(new ProxyNetworkConfig(hostname,port), new ProxyCredentials(username,password));
     }
 }

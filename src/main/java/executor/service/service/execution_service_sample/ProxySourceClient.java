@@ -1,10 +1,10 @@
 package executor.service.service.execution_service_sample;
 
-import executor.service.model.ProxyConfigHolder;
+import executor.service.model.ProxyConfigHolderDto;
 
 public class ProxySourceClient {
 
-    public ProxyConfigHolder getProxy() {
+    public ProxyConfigHolderDto getProxy() {
         return null;
     }
 }

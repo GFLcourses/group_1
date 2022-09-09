@@ -1,6 +1,6 @@
 package executor.service.service.execution_service_sample;
 
-import executor.service.model.ProxyConfigHolder;
+import executor.service.model.ProxyConfigHolderDto;
 import executor.service.model.Scenario;
 import executor.service.util.PropertiesReader;
 
@@ -16,7 +16,7 @@ public class ParallelFlowExecutorServiceV2 {
     private final WebDriverInitializer webDriverInitializer;
 
     private final Queue<Scenario> SCENARIO_QUEUE;
-    private final Queue<ProxyConfigHolder> PROXY_QUEUE;
+    private final Queue<ProxyConfigHolderDto> PROXY_QUEUE;
 
     public ParallelFlowExecutorServiceV2() {
         this.proxySourceClient = new ProxySourceClient();
