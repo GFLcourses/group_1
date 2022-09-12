@@ -36,7 +36,7 @@ public class TestingRunnerImpl implements TestingRunner {
         SCENARIO_SOURCE_LISTENER = factory.getInstance(ScenarioSourceListenerImpl.class);
     }
 
-    public TestingRunnerImpl getInstance() {
+    static public TestingRunnerImpl getInstance() {
         return INSTANCE;
     }
 
