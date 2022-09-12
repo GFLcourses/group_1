@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class ProxyConfigHolderTest {
+public class ProxyConfigHolderDtoTest {
     private static ProxyNetworkConfig proxyNetworkConfig = new ProxyNetworkConfig("localhost",4412);
     private static ProxyCredentials proxyCredentials = new ProxyCredentials("login","pass");
     private static ProxyConfigHolderDto proxyConfigHolder;
