@@ -9,7 +9,7 @@ public class ParallelFlowExecuteServiceImplTest {
             ParallelFlowExecuteServiceImpl.getInstance();
 
     @Test
-    public void testParallelExecute() {
+    public void parallelExecuteTest() {
         Runnable runnableMock = mock(Runnable.class);
         parallelFlowExecuteService.parallelExecute(runnableMock, runnableMock);
         verify(runnableMock, times(1)).run();
