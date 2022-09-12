@@ -3,7 +3,7 @@ package executor.service.model;
 import java.util.List;
 import java.util.Objects;
 
-public class Scenario {
+public class Scenario implements Comparable<Scenario>{
     private String name;
     private String site;
     private List<Step> steps;
@@ -62,5 +62,14 @@ public class Scenario {
                 ", site='" + site + '\'' +
                 ", steps=" + steps +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Scenario o) {
+        if (this.name.equals(o.name)){
+            return 1;
+        } else {
+            return -1;
+        }
     }
 }
