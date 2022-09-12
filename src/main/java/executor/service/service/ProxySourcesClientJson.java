@@ -15,7 +15,7 @@ public class ProxySourcesClientJson implements ProxySourcesClient {
 
     protected ProxySourcesClientJson() {  }
 
-    public ProxySourcesClientJson getInstance() {
+    public static ProxySourcesClientJson getInstance() {
         return INSTANCE;
     }
 
