@@ -1,10 +1,10 @@
 package executor.service.service;
 
-import executor.service.model.ProxyConfigHolder;
+import executor.service.model.ProxyConfigHolderDto;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 
 public interface ProxySourcesClient {
-    ProxyConfigHolder getProxy() throws URISyntaxException, IOException;
+    ProxyConfigHolderDto getProxy() throws URISyntaxException, IOException;
 }

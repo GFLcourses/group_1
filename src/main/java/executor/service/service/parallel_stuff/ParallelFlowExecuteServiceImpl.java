@@ -1,9 +1,8 @@
-package executor.service.service.step_execution;
+package executor.service.service.parallel_stuff;
 
 import executor.service.model.ThreadPoolConfigDto;
 import executor.service.util.PropertiesReader;
 
-import javax.swing.*;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;

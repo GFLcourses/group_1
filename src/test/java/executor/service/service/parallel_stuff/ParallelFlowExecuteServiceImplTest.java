@@ -1,4 +1,4 @@
-package executor.service.service.step_execution;
+package executor.service.service.parallel_stuff;
 
 import org.junit.Test;
 
