@@ -16,7 +16,7 @@ public class ExecutionServiceImpl implements ExecutionService {
     @Override
     public void execute(WebDriver webDriver, ScenarioSourceListener scenarioListener, ScenarioExecutor scenarioExecutor) {
         try {
-            scenarioListener.execute(); // TODO: I must receive ScenarioDto right here, but this method return void
+            scenarioListener.getScenario(); // TODO: I must receive ScenarioDto right here, but this method return void
         } catch (Exception e) {
             // ...
         }
