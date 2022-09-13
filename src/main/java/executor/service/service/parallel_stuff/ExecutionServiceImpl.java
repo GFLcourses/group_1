@@ -9,7 +9,7 @@ public class ExecutionServiceImpl implements ExecutionService {
 
     protected ExecutionServiceImpl() {  }
 
-    public ExecutionServiceImpl getInstance() {
+    public static ExecutionServiceImpl getInstance() {
         return INSTANCE;
     }
 

@@ -1,6 +1,9 @@
 package executor.service.service.factory;
 
 import executor.service.ScenarioSourceListenerImpl;
+import executor.service.service.ProxySourcesClientJson;
+import executor.service.service.ScenarioExecutorServiceImpl;
+import executor.service.service.parallel_stuff.ExecutionServiceImpl;
 import executor.service.service.web_driver.ChromeWebDriverInitializer;
 import executor.service.service.parallel_stuff.ParallelFlowExecuteServiceImpl;
 import executor.service.service.step_execution.StepExecutionClickCSS;
@@ -35,10 +38,19 @@ public class DIFactory implements Factory {
             return (T) mapOfInstances.getOrDefault(clazz, new StepExecutionServiceSleep());
         }
         if(ChromeWebDriverInitializer.class.isAssignableFrom(clazz)) {
-            return (T) mapOfInstances.getOrDefault(clazz,new ChromeWebDriverInitializer());
+            return (T) mapOfInstances.getOrDefault(clazz, new ChromeWebDriverInitializer());
         }
         if (ScenarioSourceListenerImpl.class.isAssignableFrom(clazz)) {
-            return (T) mapOfInstances.getOrDefault(clazz,new ScenarioSourceListenerImpl());
+            return (T) mapOfInstances.getOrDefault(clazz, new ScenarioSourceListenerImpl());
+        }
+        if (ExecutionServiceImpl.class.isAssignableFrom(clazz)) {
+            return (T) mapOfInstances.getOrDefault(clazz, ExecutionServiceImpl.getInstance());
+        }
+        if (ScenarioExecutorServiceImpl.class.isAssignableFrom(clazz)) {
+            return (T) mapOfInstances.getOrDefault(clazz, ScenarioExecutorServiceImpl.getInstance());
+        }
+        if (ProxySourcesClientJson.class.isAssignableFrom(clazz)) {
+            return (T) mapOfInstances.getOrDefault(clazz, ProxySourcesClientJson.getInstance());
         }
         throw new RuntimeException("Please, check class name before creation in factory");
     }

@@ -10,7 +10,14 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class ProxySourcesClientJson implements ProxySourcesClient{
+public class ProxySourcesClientJson implements ProxySourcesClient {
+    private static final ProxySourcesClientJson INSTANCE = new ProxySourcesClientJson();
+
+    protected ProxySourcesClientJson() {  }
+
+    public static ProxySourcesClientJson getInstance() {
+        return INSTANCE;
+    }
 
     @Override
     public ProxyConfigHolderDto getProxy() throws URISyntaxException, IOException {
