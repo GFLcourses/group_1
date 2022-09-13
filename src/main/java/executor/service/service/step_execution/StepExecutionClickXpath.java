@@ -1,7 +1,9 @@
 package executor.service.service.step_execution;
 
 import executor.service.model.Step;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 public class StepExecutionClickXpath implements StepExecutable {
     @Override
@@ -11,6 +13,16 @@ public class StepExecutionClickXpath implements StepExecutable {
 
     @Override
     public void step(WebDriver webDriver, Step step) {
-        webDriver.navigate().to(step.getValue());
+        if (webDriver == null || step == null) {
+            return;
+        }
+        try {
+            WebElement webElement = webDriver.findElement(By.xpath(step.getValue()));
+            if (webElement.isEnabled()) {
+                webElement.click();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
