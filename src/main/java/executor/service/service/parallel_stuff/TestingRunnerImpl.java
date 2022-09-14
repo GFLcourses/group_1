@@ -44,7 +44,7 @@ public class TestingRunnerImpl implements TestingRunner {
     public void run() {
         Queue<ProxyConfigHolderDto> proxyQueue = new ConcurrentLinkedQueue<>();
         Queue<WebDriver> webDriverQueue = new ConcurrentLinkedQueue<>();
-        while (Thread.interrupted()) {
+        while (!Thread.currentThread().isInterrupted()) {
             Runnable getProxies = () -> {
                 try {
                     proxyQueue.add(PROXY_SOURCES_CLIENT.getProxy());
