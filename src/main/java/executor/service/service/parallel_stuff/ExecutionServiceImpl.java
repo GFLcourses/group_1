@@ -15,8 +15,8 @@ public class ExecutionServiceImpl implements ExecutionService {
     }
 
     @Override
-    public void execute(WebDriver webDriver, ScenarioSourceListener scenarioListener, ScenarioExecutor scenarioExecutor) {
-        Scenario scenario = scenarioListener.getScenario();
+    public void execute(WebDriver webDriver, ScenarioSourceListener scenarioSourceListener, ScenarioExecutor scenarioExecutor) {
+        Scenario scenario = scenarioSourceListener.getScenario();
         scenarioExecutor.execute(scenario, webDriver);
     }
 }
