@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 public class StepExecutionClickCSS implements StepExecutable{
     @Override
     public String getStepAction() {
-        return "clickCSS";
+        return "clickCss";
     }
 
     @Override

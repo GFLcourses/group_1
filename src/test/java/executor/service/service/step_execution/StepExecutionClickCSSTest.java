@@ -14,7 +14,7 @@ public class StepExecutionClickCSSTest {
 
     @Before
     public void setUp() throws Exception {
-        step = new Step("clickCSS", "body > ul > li > a");
+        step = new Step("clickCss", "body > ul > li:nth-child(1) > a");
     }
 
     @Test
@@ -22,6 +22,6 @@ public class StepExecutionClickCSSTest {
         WebDriver webDriver = mock(WebDriver.class);
         StepExecutionClickCSS stepExecutionClickCSS = new StepExecutionClickCSS();
         stepExecutionClickCSS.step(webDriver, step);
-        verify(webDriver, times(1)).findElement(By.cssSelector("body > ul > li > a"));
+        verify(webDriver, times(1)).findElement(By.cssSelector("body > ul > li:nth-child(1) > a"));
     }
 }
