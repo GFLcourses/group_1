@@ -9,8 +9,6 @@ import executor.service.service.*;
 import executor.service.service.web_driver.ChromeWebDriverInitializer;
 import org.openqa.selenium.WebDriver;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
