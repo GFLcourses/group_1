@@ -26,14 +26,17 @@ public class ScenarioExecutorServiceImpl implements ScenarioExecutor {
             String action = step.getAction();
             StepExecutable stepExecutable = null;
             switch (action){
-                case "clickCSS":
+                case "clickCss":
                     stepExecutable = new StepExecutionClickCSS();
+                    stepExecutable.step(webDriver, step);
                     break;
                 case "clickXpath":
                     stepExecutable = new StepExecutionClickXpath();
+                    stepExecutable.step(webDriver, step);
                     break;
                 case "sleep":
                     stepExecutable = new StepExecutionServiceSleep();
+                    stepExecutable.step(webDriver, step);
                     break;
                 default:
                     stepExecutable.step(webDriver, step);
