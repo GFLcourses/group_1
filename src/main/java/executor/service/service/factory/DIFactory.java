@@ -4,6 +4,7 @@ import executor.service.ScenarioSourceListenerImpl;
 import executor.service.service.ProxySourcesClientJson;
 import executor.service.service.ScenarioExecutorServiceImpl;
 import executor.service.service.parallel_stuff.ExecutionServiceImpl;
+import executor.service.service.parallel_stuff.TestingRunnerImpl;
 import executor.service.service.web_driver.ChromeWebDriverInitializer;
 import executor.service.service.parallel_stuff.ParallelFlowExecuteServiceImpl;
 import executor.service.service.step_execution.StepExecutionClickCSS;
@@ -51,6 +52,9 @@ public class DIFactory implements Factory {
         }
         if (ProxySourcesClientJson.class.isAssignableFrom(clazz)) {
             return (T) mapOfInstances.getOrDefault(clazz, ProxySourcesClientJson.getInstance());
+        }
+        if (TestingRunnerImpl.class.isAssignableFrom(clazz)) {
+            return (T) mapOfInstances.getOrDefault(clazz, TestingRunnerImpl.getInstance());
         }
         throw new RuntimeException("Please, check class name before creation in factory");
     }
