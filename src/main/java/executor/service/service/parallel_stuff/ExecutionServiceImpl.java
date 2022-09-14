@@ -1,6 +1,7 @@
 package executor.service.service.parallel_stuff;
 
 import executor.service.ScenarioSourceListener;
+import executor.service.model.Scenario;
 import executor.service.service.ScenarioExecutor;
 import org.openqa.selenium.WebDriver;
 
@@ -14,12 +15,8 @@ public class ExecutionServiceImpl implements ExecutionService {
     }
 
     @Override
-    public void execute(WebDriver webDriver, ScenarioSourceListener scenarioListener, ScenarioExecutor scenarioExecutor) {
-        try {
-            scenarioListener.getScenario(); // TODO: I must receive ScenarioDto right here, but this method return void
-        } catch (Exception e) {
-            // ...
-        }
-        scenarioExecutor.execute(null, webDriver);
+    public void execute(WebDriver webDriver, ScenarioSourceListener scenarioSourceListener, ScenarioExecutor scenarioExecutor) {
+        Scenario scenario = scenarioSourceListener.getScenario();
+        scenarioExecutor.execute(scenario, webDriver);
     }
 }

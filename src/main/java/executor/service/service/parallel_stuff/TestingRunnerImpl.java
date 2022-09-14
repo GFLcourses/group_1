@@ -9,8 +9,6 @@ import executor.service.service.*;
 import executor.service.service.web_driver.ChromeWebDriverInitializer;
 import org.openqa.selenium.WebDriver;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -44,11 +42,11 @@ public class TestingRunnerImpl implements TestingRunner {
     public void run() {
         Queue<ProxyConfigHolderDto> proxyQueue = new ConcurrentLinkedQueue<>();
         Queue<WebDriver> webDriverQueue = new ConcurrentLinkedQueue<>();
-        while (Thread.interrupted()) {
+        while (!Thread.currentThread().isInterrupted()) {
             Runnable getProxies = () -> {
                 try {
                     proxyQueue.add(PROXY_SOURCES_CLIENT.getProxy());
-                } catch (URISyntaxException | IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             };
