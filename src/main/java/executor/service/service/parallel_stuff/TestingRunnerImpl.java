@@ -48,7 +48,7 @@ public class TestingRunnerImpl implements TestingRunner {
             Runnable getProxies = () -> {
                 try {
                     proxyQueue.add(PROXY_SOURCES_CLIENT.getProxy());
-                } catch (URISyntaxException | IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             };
