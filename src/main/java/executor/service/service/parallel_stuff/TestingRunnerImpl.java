@@ -1,11 +1,14 @@
 package executor.service.service.parallel_stuff;
 
-import executor.service.ScenarioSourceListener;
-import executor.service.ScenarioSourceListenerImpl;
+import executor.service.service.scenario.ScenarioExecutor;
+import executor.service.service.scenario.ScenarioExecutorServiceImpl;
+import executor.service.service.scenario.ScenarioSourceListener;
+import executor.service.service.scenario.ScenarioSourceListenerImpl;
 import executor.service.service.factory.Factory;
 import executor.service.service.factory.DIFactory;
 import executor.service.model.ProxyConfigHolderDto;
-import executor.service.service.*;
+import executor.service.service.proxy.ProxySourcesClient;
+import executor.service.service.proxy.ProxySourcesClientJson;
 import executor.service.service.web_driver.ChromeWebDriverInitializer;
 import org.openqa.selenium.WebDriver;
 

@@ -1,8 +1,8 @@
 package executor.service.service.parallel_stuff;
 
-import executor.service.ScenarioSourceListener;
+import executor.service.service.scenario.ScenarioSourceListener;
 import executor.service.model.Scenario;
-import executor.service.service.ScenarioExecutor;
+import executor.service.service.scenario.ScenarioExecutor;
 import org.openqa.selenium.WebDriver;
 
 public class ExecutionServiceImpl implements ExecutionService {

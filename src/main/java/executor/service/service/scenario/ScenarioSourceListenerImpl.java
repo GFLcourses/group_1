@@ -1,4 +1,4 @@
-package executor.service;
+package executor.service.service.scenario;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;

@@ -1,8 +1,8 @@
 package executor.service.service.factory;
 
-import executor.service.ScenarioSourceListenerImpl;
-import executor.service.service.ProxySourcesClientJson;
-import executor.service.service.ScenarioExecutorServiceImpl;
+import executor.service.service.scenario.ScenarioSourceListenerImpl;
+import executor.service.service.proxy.ProxySourcesClientJson;
+import executor.service.service.scenario.ScenarioExecutorServiceImpl;
 import executor.service.service.parallel_stuff.ExecutionServiceImpl;
 import executor.service.service.parallel_stuff.TestingRunnerImpl;
 import executor.service.service.web_driver.ChromeWebDriverInitializer;

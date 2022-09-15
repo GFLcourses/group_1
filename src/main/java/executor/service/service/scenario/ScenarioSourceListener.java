@@ -1,4 +1,4 @@
-package executor.service;
+package executor.service.service.scenario;
 
 import executor.service.model.Scenario;
 
