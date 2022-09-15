@@ -6,32 +6,50 @@ import executor.service.model.ProxyCredentials;
 import executor.service.model.ProxyNetworkConfig;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 public class ProxySourcesClientJson implements ProxySourcesClient {
     private static final ProxySourcesClientJson INSTANCE = new ProxySourcesClientJson();
+    private static final Queue<ProxyConfigHolderDto> PROXIES_QUEUE = new PriorityQueue<>();
 
     protected ProxySourcesClientJson() {  }
+
+    static {
+        try {
+            readProxies();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static ProxySourcesClientJson getInstance() {
         return INSTANCE;
     }
 
     @Override
-    public ProxyConfigHolderDto getProxy() throws URISyntaxException, IOException {
-        URI credentialsURI = this.getClass().getClassLoader().getResource("ProxyCredentials.json").toURI();
-        URI networkURI = this.getClass().getClassLoader().getResource("ProxyNetwork.json").toURI();
+    public ProxyConfigHolderDto getProxy() {
+        return PROXIES_QUEUE.poll();
+    }
 
-        File credentialsFile = new File(credentialsURI);
-        File networkFile = new File(networkURI);
+    private static void readProxies() {
+        try {
+            URI credentialsURI = ProxySourcesClientJson.class.getClassLoader().getResource("ProxyCredentials.json").toURI();
+            URI networkURI = ProxySourcesClientJson.class.getClassLoader().getResource("ProxyNetwork.json").toURI();
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        ProxyCredentials[] proxyCredentials = objectMapper.readValue(credentialsFile, ProxyCredentials[].class);
-        ProxyNetworkConfig[] proxyNetworkConfigs = objectMapper.readValue(networkFile, ProxyNetworkConfig[].class);
+            File credentialsFile = new File(credentialsURI);
+            File networkFile = new File(networkURI);
 
-        return new ProxyConfigHolderDto(proxyNetworkConfigs[proxyNetworkConfigs.length - 1],
-                                        proxyCredentials[proxyCredentials.length - 1]);
+            ObjectMapper objectMapper = new ObjectMapper();
+            ProxyCredentials[] proxyCredentials = objectMapper.readValue(credentialsFile, ProxyCredentials[].class);
+            ProxyNetworkConfig[] proxyNetworkConfigs = objectMapper.readValue(networkFile, ProxyNetworkConfig[].class);
+
+            for (int i = 0; i < 3; i++) {
+                PROXIES_QUEUE.add(new ProxyConfigHolderDto(proxyNetworkConfigs[i], proxyCredentials[i]));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
