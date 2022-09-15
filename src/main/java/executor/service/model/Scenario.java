@@ -8,9 +8,7 @@ public class Scenario implements Comparable<Scenario>{
     private String site;
     private List<Step> steps;
 
-    public Scenario(){
-
-    }
+    public Scenario() {  }
 
     public Scenario(String name, String site, List<Step> steps) {
         this.name = name;
