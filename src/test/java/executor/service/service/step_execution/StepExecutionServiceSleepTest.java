@@ -1,6 +1,7 @@
 package executor.service.service.step_execution;
 
 import executor.service.model.Step;
+import executor.service.service.step_execution.StepExecutionServiceSleep;
 import org.junit.Before;
 import org.junit.Test;
 

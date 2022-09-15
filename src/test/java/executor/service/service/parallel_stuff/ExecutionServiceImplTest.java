@@ -1,7 +1,9 @@
 package executor.service.service.parallel_stuff;
 
-import executor.service.ScenarioSourceListenerImpl;
-import executor.service.service.ScenarioExecutorServiceImpl;
+import executor.service.service.parallel_stuff.ExecutionService;
+import executor.service.service.parallel_stuff.ExecutionServiceImpl;
+import executor.service.service.scenario.ScenarioSourceListenerImpl;
+import executor.service.service.scenario.ScenarioExecutorServiceImpl;
 import executor.service.service.factory.DIFactory;
 import executor.service.service.factory.Factory;
 import org.junit.Test;

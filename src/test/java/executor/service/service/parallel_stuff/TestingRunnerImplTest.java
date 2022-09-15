@@ -1,5 +1,7 @@
 package executor.service.service.parallel_stuff;
 
+import executor.service.service.parallel_stuff.TestingRunner;
+import executor.service.service.parallel_stuff.TestingRunnerImpl;
 import junit.framework.TestCase;
 
 import static org.mockito.Mockito.*;

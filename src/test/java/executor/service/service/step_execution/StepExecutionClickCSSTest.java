@@ -1,6 +1,7 @@
 package executor.service.service.step_execution;
 
 import executor.service.model.Step;
+import executor.service.service.step_execution.StepExecutionClickCSS;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
