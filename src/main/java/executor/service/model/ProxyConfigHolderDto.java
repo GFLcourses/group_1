@@ -2,7 +2,7 @@ package executor.service.model;
 
 import java.util.Objects;
 
-public class ProxyConfigHolderDto {
+public class ProxyConfigHolderDto implements Comparable<ProxyConfigHolderDto> {
     private ProxyNetworkConfig proxyNetworkConfig;
     private ProxyCredentials proxyCredentials;
 
@@ -48,5 +48,14 @@ public class ProxyConfigHolderDto {
                 "proxyNetworkConfig=" + proxyNetworkConfig +
                 ", proxyCredentials=" + proxyCredentials +
                 '}';
+    }
+
+    @Override
+    public int compareTo(ProxyConfigHolderDto o) {
+        if (this.proxyNetworkConfig.equals(o.proxyNetworkConfig)){
+            return 1;
+        } else {
+            return -1;
+        }
     }
 }
