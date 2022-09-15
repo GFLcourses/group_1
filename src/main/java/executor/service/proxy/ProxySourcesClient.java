@@ -4,7 +4,9 @@ import executor.model.ProxyConfigHolderDto;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Optional;
 
 public interface ProxySourcesClient {
-    ProxyConfigHolderDto getProxy() throws URISyntaxException, IOException;
+
+    Optional<ProxyConfigHolderDto> getProxy() throws URISyntaxException, IOException;
 }

@@ -7,6 +7,7 @@ import executor.model.ProxyConfigHolderDto;
 
 import java.io.File;
 import java.net.URI;
+import java.util.Optional;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -29,11 +30,11 @@ public class ProxySourcesClientJson implements ProxySourcesClient {
     }
 
     @Override
-    public ProxyConfigHolderDto getProxy() {
-        return PROXIES_QUEUE.poll();
+    public Optional<ProxyConfigHolderDto> getProxy() {
+        return Optional.ofNullable(PROXIES_QUEUE.poll());
     }
 
-    private static void readProxies() {
+    protected static void readProxies() {
         try {
             URI credentialsURI = ProxySourcesClientJson.class.getClassLoader().getResource("ProxyCredentials.json").toURI();
             URI networkURI = ProxySourcesClientJson.class.getClassLoader().getResource("ProxyNetwork.json").toURI();
