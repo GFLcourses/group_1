@@ -1,5 +1,6 @@
 package executor.service.parallel_stuff;
 
+import executor.exception.NoProxyFoundException;
 import executor.service.proxy.ProxySourcesClient;
 import executor.service.scenario.ScenarioExecutor;
 import executor.service.scenario.ScenarioExecutorServiceImpl;
@@ -11,12 +12,16 @@ import executor.model.ProxyConfigHolderDto;
 import executor.service.proxy.ProxySourcesClientJson;
 import executor.service.web_driver.ChromeWebDriverInitializer;
 import org.openqa.selenium.WebDriver;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.CountDownLatch;
 
 public class TestingRunnerImpl implements TestingRunner {
     private static final TestingRunnerImpl INSTANCE = new TestingRunnerImpl();
+    private static final Logger LOGGER = LogManager.getLogger(TestingRunnerImpl.class);
 
     private static final ParallelFlowExecuteService FLOW_EXECUTOR;
     private static final ExecutionService EXECUTION_SERVICE;
@@ -45,27 +50,49 @@ public class TestingRunnerImpl implements TestingRunner {
     public void run() {
         Queue<ProxyConfigHolderDto> proxyQueue = new ConcurrentLinkedQueue<>();
         Queue<WebDriver> webDriverQueue = new ConcurrentLinkedQueue<>();
+
         while (!Thread.currentThread().isInterrupted()) {
+            CountDownLatch counter = new CountDownLatch(2);
+            CountDownLatch proxyWaiter = new CountDownLatch(1);
+
             Runnable getProxies = () -> {
                 try {
-                    proxyQueue.add(PROXY_SOURCES_CLIENT.getProxy());
-                    System.out.println(proxyQueue.peek());
+                    proxyQueue.add(PROXY_SOURCES_CLIENT.getProxy().orElseThrow(
+                            ()-> new NoProxyFoundException("Proxy is null")));
+                    proxyWaiter.countDown();
+                    counter.countDown();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    LOGGER.error("{}, {}! An exception occurred!",
+                            this.getClass().getPackageName(),
+                            this.getClass().getSimpleName(),
+                            e);
                 }
             };
             FLOW_EXECUTOR.parallelExecute(getProxies);
 
             Runnable getChromeDrivers = () -> {
-                webDriverQueue.add(CHROME_WEB_DRIVER_INITIALIZER.initialize(proxyQueue.poll()));
+                try {
+                    proxyWaiter.await();
+                    webDriverQueue.add(CHROME_WEB_DRIVER_INITIALIZER.initialize(proxyQueue.poll()));
+                    counter.countDown();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             };
             FLOW_EXECUTOR.parallelExecute(getChromeDrivers);
 
-            Runnable worker = () -> EXECUTION_SERVICE.execute(
-                    webDriverQueue.poll(),
-                    SCENARIO_SOURCE_LISTENER,
-                    SCENARIO_EXECUTOR
-            );
+            Runnable worker = () -> {
+                try {
+                    counter.await();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                EXECUTION_SERVICE.execute(
+                webDriverQueue.poll(),
+                        SCENARIO_SOURCE_LISTENER,
+                        SCENARIO_EXECUTOR);
+                System.out.println("success'");
+            };
             FLOW_EXECUTOR.parallelExecute(worker);
         }
     }
