@@ -12,11 +12,25 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 public class ChromeWebDriverInitializer implements WebDriverInitializer {
 
+    static {
+        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver");
+    }
+
     @Override
     public WebDriver initialize(ProxyConfigHolderDto proxyConfigHolder) {
-        WebDriverConfigDTO webDriverConfigDTO = PropertiesReader.readWebDriverConfig();
-        System.setProperty("webdriver.chrome.driver", webDriverConfigDTO.getWebDriverExecutable());
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments(String.format("--proxy-server=" + proxyConfigHolder.getProxyCredentials().getUsername() +
+                                                 ":" + proxyConfigHolder.getProxyCredentials().getPassword() +
+                                                 "@" + proxyConfigHolder.getProxyNetworkConfig().getHostname() +
+                                                 ":" + proxyConfigHolder.getProxyNetworkConfig().getPort()));
+        return new ChromeDriver(chromeOptions);
+    }
 
+    public WebDriver initialize1(ProxyConfigHolderDto proxyConfigHolder) {
+        WebDriverConfigDTO webDriverConfigDTO = PropertiesReader.readWebDriverConfig();
+        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver");
+
+        System.out.println(proxyConfigHolder);
         ChromeOptions options = new ChromeOptions();
         options.addArguments("user-agent=" + webDriverConfigDTO.getUserAgent());
         setProxyServer(options, proxyConfigHolder.getProxyNetworkConfig(), proxyConfigHolder.getProxyCredentials());
