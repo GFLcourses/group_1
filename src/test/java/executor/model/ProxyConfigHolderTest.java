@@ -5,26 +5,26 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class ProxyConfigHolderDtoTest {
+public class ProxyConfigHolderTest {
     private static ProxyNetworkConfig proxyNetworkConfig = new ProxyNetworkConfig("localhost",4412);
     private static ProxyCredentials proxyCredentials = new ProxyCredentials("login","pass");
-    private static ProxyConfigHolderDto proxyConfigHolder;
-    private static ProxyConfigHolderDto proxyConfigHolder2;
-    private static ProxyConfigHolderDto emptyConfigHolder;
-    private static ProxyConfigHolderDto anotherConfigHolder;
+    private static ProxyConfigHolder proxyConfigHolder;
+    private static ProxyConfigHolder proxyConfigHolder2;
+    private static ProxyConfigHolder emptyConfigHolder;
+    private static ProxyConfigHolder anotherConfigHolder;
 
     @Before
     public void setUp() {
-        proxyConfigHolder = new ProxyConfigHolderDto(proxyNetworkConfig,proxyCredentials);
-        proxyConfigHolder2 = new ProxyConfigHolderDto(proxyNetworkConfig,proxyCredentials);
-        emptyConfigHolder = new ProxyConfigHolderDto();
-        anotherConfigHolder = new ProxyConfigHolderDto(new ProxyNetworkConfig("localhost1",443),
+        proxyConfigHolder = new ProxyConfigHolder(proxyNetworkConfig,proxyCredentials);
+        proxyConfigHolder2 = new ProxyConfigHolder(proxyNetworkConfig,proxyCredentials);
+        emptyConfigHolder = new ProxyConfigHolder();
+        anotherConfigHolder = new ProxyConfigHolder(new ProxyNetworkConfig("localhost1",443),
                 new ProxyCredentials("login2","pass2"));
     }
 
     @Test
     public void equalsTest() {
-        ProxyConfigHolderDto emptyConfigHolder = new ProxyConfigHolderDto();
+        ProxyConfigHolder emptyConfigHolder = new ProxyConfigHolder();
         assertEquals(proxyConfigHolder,proxyConfigHolder2);
         assertNotEquals(emptyConfigHolder,proxyConfigHolder);
         assertNotEquals(anotherConfigHolder,proxyConfigHolder);
