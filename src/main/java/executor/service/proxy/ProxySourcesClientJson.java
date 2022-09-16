@@ -18,11 +18,7 @@ public class ProxySourcesClientJson implements ProxySourcesClient {
     protected ProxySourcesClientJson() {  }
 
     static {
-        try {
-            readProxies();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        readProxies();
     }
 
     public static ProxySourcesClientJson getInstance() {

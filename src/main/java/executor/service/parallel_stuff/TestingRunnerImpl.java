@@ -73,10 +73,15 @@ public class TestingRunnerImpl implements TestingRunner {
             Runnable getChromeDrivers = () -> {
                 try {
                     proxyWaiter.await();
+                    System.out.println("CHROME_DRIVER_GETTING_START");
                     webDriverQueue.add(CHROME_WEB_DRIVER_INITIALIZER.initialize(proxyQueue.poll()));
+                    System.out.println("CHROME_DRIVER_WAS_GOT");
                     counter.countDown();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    LOGGER.error("{}, {}! An exception occurred!",
+                            this.getClass().getPackageName(),
+                            this.getClass().getSimpleName(),
+                            e);
                 }
             };
             FLOW_EXECUTOR.parallelExecute(getChromeDrivers);
@@ -84,14 +89,14 @@ public class TestingRunnerImpl implements TestingRunner {
             Runnable worker = () -> {
                 try {
                     counter.await();
-                } catch (InterruptedException e) {
+                    EXECUTION_SERVICE.execute(
+                            webDriverQueue.poll(),
+                            SCENARIO_SOURCE_LISTENER,
+                            SCENARIO_EXECUTOR);
+                    System.out.println("success'");
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-                EXECUTION_SERVICE.execute(
-                webDriverQueue.poll(),
-                        SCENARIO_SOURCE_LISTENER,
-                        SCENARIO_EXECUTOR);
-                System.out.println("success'");
             };
             FLOW_EXECUTOR.parallelExecute(worker);
         }
