@@ -39,7 +39,7 @@ public class DIFactory implements Factory {
             return (T) mapOfInstances.getOrDefault(clazz, new StepExecutionServiceSleep());
         }
         if(ChromeWebDriverInitializer.class.isAssignableFrom(clazz)) {
-            return (T) mapOfInstances.getOrDefault(clazz, new ChromeWebDriverInitializer());
+            return (T) mapOfInstances.getOrDefault(clazz, ChromeWebDriverInitializer.getInstance());
         }
         if (ScenarioSourceListenerImpl.class.isAssignableFrom(clazz)) {
             return (T) mapOfInstances.getOrDefault(clazz, new ScenarioSourceListenerImpl());

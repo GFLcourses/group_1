@@ -73,10 +73,18 @@ public class TestingRunnerImpl implements TestingRunner {
             Runnable getChromeDrivers = () -> {
                 try {
                     proxyWaiter.await();
-                    webDriverQueue.add(CHROME_WEB_DRIVER_INITIALIZER.initialize(proxyQueue.poll()));
+
+                    System.out.println("START GETTING DRIVER");
+                    WebDriver driver = CHROME_WEB_DRIVER_INITIALIZER.initialize(proxyQueue.poll());
+                    System.out.println("DRIVER IS GOT");
+
+                    webDriverQueue.add(driver);
                     counter.countDown();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    LOGGER.error("{}, {}! An exception occurred!",
+                            this.getClass().getPackageName(),
+                            this.getClass().getSimpleName(),
+                            e);
                 }
             };
             FLOW_EXECUTOR.parallelExecute(getChromeDrivers);
@@ -84,14 +92,17 @@ public class TestingRunnerImpl implements TestingRunner {
             Runnable worker = () -> {
                 try {
                     counter.await();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    EXECUTION_SERVICE.execute(
+                            webDriverQueue.poll(),
+                            SCENARIO_SOURCE_LISTENER,
+                            SCENARIO_EXECUTOR);
+                    System.out.println("success'");
+                } catch (Exception e) {
+                    LOGGER.error("{}, {}! An exception occurred!",
+                            this.getClass().getPackageName(),
+                            this.getClass().getSimpleName(),
+                            e);
                 }
-                EXECUTION_SERVICE.execute(
-                webDriverQueue.poll(),
-                        SCENARIO_SOURCE_LISTENER,
-                        SCENARIO_EXECUTOR);
-                System.out.println("success'");
             };
             FLOW_EXECUTOR.parallelExecute(worker);
         }
