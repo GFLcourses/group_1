@@ -78,10 +78,11 @@ public class FlowRunnerImpl implements FlowRunner {
             FLOW_EXECUTOR.parallelExecute(getProxies);
 
             Runnable worker = () -> {
+                WebDriver driver = null;
                 try {
                     scenarioCounter.await();
                     proxyCounter.await();
-                    WebDriver driver = CHROME_WEB_DRIVER_INITIALIZER.initialize();
+                    driver = CHROME_WEB_DRIVER_INITIALIZER.initialize();
                     SCENARIO_EXECUTOR.execute(SCENARIO_SOURCE_LISTENER.getScenario(), driver);
                     commonCounter.countDown();
                     System.out.println("success'");
@@ -90,6 +91,8 @@ public class FlowRunnerImpl implements FlowRunner {
                             this.getClass().getPackageName(),
                             this.getClass().getSimpleName(),
                             e);
+                    assert driver != null;
+                    driver.quit();
                 }
             };
             FLOW_EXECUTOR.parallelExecute(worker);
