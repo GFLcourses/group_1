@@ -1,8 +1,7 @@
 package executor.service.web_driver;
 
-import executor.model.ProxyConfigHolder;
-import executor.model.ProxyCredentials;
-import executor.model.ProxyNetworkConfig;
+import executor.model.*;
+import executor.service.scenario.ScenarioSourceListenerImpl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,8 +42,8 @@ public class ChromeWebDriverInitializerTest {
     @Test
     public void testElementsSearching() {
         webDriver.get("http://info.cern.ch");
-        List<WebElement> webElements = webDriver.findElements(By.cssSelector("body > ul > li > a"));
-        assertEquals(4, webElements.size());
+        List<WebElement> webElements = webDriver.findElements(By.cssSelector("body > ul > li > a"));// body > ul > li:nth-child(1) > a
+        assertEquals(4, webElements.size());   // body > ul > li > a
         WebElement firstLink = webElements.get(0);
         firstLink.click();
     }
@@ -57,5 +56,22 @@ public class ChromeWebDriverInitializerTest {
         searchInput.sendKeys("selenium webdriver download");
         TimeUnit.SECONDS.sleep(5L);
         searchInput.sendKeys(Keys.ENTER);
+    }
+
+    @Test
+    public void scenario1() throws InterruptedException {
+        ScenarioSourceListenerImpl scenarioSourceListener = ScenarioSourceListenerImpl.getInstance();
+        Scenario scenario = scenarioSourceListener.getScenario();
+        List<Step> steps = scenario.getSteps();
+        webDriver.get(scenario.getSite());
+
+        System.out.println(steps);
+
+        WebElement webElement = webDriver.findElement(By.cssSelector(steps.get(2).getValue()));
+        webElement.click();
+        TimeUnit.SECONDS.sleep(Long.parseLong(steps.get(1).getValue()));
+        WebElement webElement1 = webDriver.findElement(By.xpath(steps.get(0).getValue()));
+        webElement1.click();
+        TimeUnit.SECONDS.sleep(Long.parseLong(steps.get(1).getValue()));
     }
 }
