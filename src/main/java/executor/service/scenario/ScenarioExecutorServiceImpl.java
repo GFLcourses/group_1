@@ -5,7 +5,6 @@ import executor.model.Scenario;
 import executor.model.Step;
 import executor.service.factory.DIFactory;
 import executor.service.factory.Factory;
-import executor.service.step_execution.StepExecutable;
 import executor.service.step_execution.StepExecutionClickCSS;
 import executor.service.step_execution.StepExecutionClickXpath;
 import executor.service.step_execution.StepExecutionServiceSleep;
@@ -34,6 +33,7 @@ public class ScenarioExecutorServiceImpl implements ScenarioExecutor {
 
     @Override
     public void execute(Scenario scenario, WebDriver webDriver) {
+        webDriver.get(scenario.getSite());
         List<Step> steps = scenario.getSteps();
         for (Step step : steps) {
             String action = step.getAction();
