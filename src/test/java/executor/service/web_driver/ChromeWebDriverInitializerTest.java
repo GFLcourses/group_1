@@ -38,23 +38,4 @@ public class ChromeWebDriverInitializerTest {
     public void testInitialize() {
         assertNotNull(webDriver);
     }
-
-    @Test
-    public void testElementsSearching() {
-        webDriver.get("http://info.cern.ch");
-        List<WebElement> webElements = webDriver.findElements(By.cssSelector("body > ul > li > a"));// body > ul > li:nth-child(1) > a
-        assertEquals(4, webElements.size());   // body > ul > li > a
-        WebElement firstLink = webElements.get(0);
-        firstLink.click();
-    }
-
-    @Test
-    public void testInput() throws InterruptedException {
-        webDriver.get("https://google.com");
-        WebElement searchInput = webDriver.findElement(By.xpath("/html/body/div[1]/div[3]/form/div[1]/div[1]/div[1]/div/div[2]/input"));
-        TimeUnit.SECONDS.sleep(5L);
-        searchInput.sendKeys("selenium webdriver download");
-        TimeUnit.SECONDS.sleep(5L);
-        searchInput.sendKeys(Keys.ENTER);
-    }
 }
