@@ -2,15 +2,15 @@ package executor;
 
 import executor.service.factory.DIFactory;
 import executor.service.factory.Factory;
-import executor.service.parallel_stuff.TestingRunner;
-import executor.service.parallel_stuff.TestingRunnerImpl;
+import executor.service.parallel_stuff.FlowRunner;
+import executor.service.parallel_stuff.FlowRunnerImpl;
 
 public class Application {
-    private static final TestingRunner TESTING_RUNNER;
+    private static final FlowRunner TESTING_RUNNER;
 
     static {
         Factory factory = DIFactory.getInstance();
-        TESTING_RUNNER = factory.getInstance(TestingRunnerImpl.class);
+        TESTING_RUNNER = factory.getInstance(FlowRunnerImpl.class);
     }
 
     public static void main(String[] args) {
