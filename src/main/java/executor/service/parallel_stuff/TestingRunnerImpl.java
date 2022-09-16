@@ -89,6 +89,7 @@ public class TestingRunnerImpl implements TestingRunner {
             Runnable worker = () -> {
                 try {
                     counter.await();
+                    webDriverQueue.add(CHROME_WEB_DRIVER_INITIALIZER.initialize(proxyQueue.poll()));
                     EXECUTION_SERVICE.execute(
                             webDriverQueue.poll(),
                             SCENARIO_SOURCE_LISTENER,

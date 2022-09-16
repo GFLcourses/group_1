@@ -21,11 +21,8 @@ public class ChromeWebDriverInitializer implements WebDriverInitializer {
     public WebDriver initialize(ProxyConfigHolderDto proxyConfigHolder) {
         try {
             WebDriverConfigDTO webDriverConfigDTO = PropertiesReader.readWebDriverConfig();
-
             ChromeOptions options = new ChromeOptions();
             options.addArguments("user-agent=" + webDriverConfigDTO.getUserAgent());
-
-
             setProxyServer(options, proxyConfigHolder.getProxyNetworkConfig(), proxyConfigHolder.getProxyCredentials());
 
             return new ChromeDriver(options);
@@ -37,9 +34,5 @@ public class ChromeWebDriverInitializer implements WebDriverInitializer {
     private void setProxyServer(ChromeOptions options, ProxyNetworkConfig networkConfig, ProxyCredentials credentials) {
         options.addArguments("--proxy-server=" + credentials.getUsername() + ":" + credentials.getPassword() + "@"
                                                 + networkConfig.getHostname() + ":" + networkConfig.getPort());
-//        options.addArguments("--proxy-server=" + proxyConfigHolder.getProxyCredentials().getUsername() + ":" + proxyConfigHolder.getProxyCredentials().getPassword() + "@"
-//                             + proxyConfigHolder.getProxyNetworkConfig().getHostname() + ":" + proxyConfigHolder.getProxyNetworkConfig().getPort());
     }
-
-
 }
