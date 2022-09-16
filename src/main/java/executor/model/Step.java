@@ -6,9 +6,7 @@ public class Step {
     private String action;
     private String value;
 
-    public Step() {
-
-    }
+    public Step() {  }
 
     public Step(String action, String value) {
         this.action = action;
