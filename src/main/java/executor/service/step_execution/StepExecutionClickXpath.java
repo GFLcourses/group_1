@@ -4,6 +4,14 @@ import executor.model.Step;
 import org.openqa.selenium.WebDriver;
 
 public class StepExecutionClickXpath implements StepExecutable {
+    private static final StepExecutionClickXpath INSTANCE = new StepExecutionClickXpath();
+
+    protected StepExecutionClickXpath() {  }
+
+    public static StepExecutionClickXpath getInstance() {
+        return INSTANCE;
+    }
+
     @Override
     public String getStepAction() {
         return "clickXpath";

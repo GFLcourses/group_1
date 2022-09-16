@@ -1,7 +1,10 @@
 package executor.service.scenario;
 
+import executor.exception.UnknownActionException;
 import executor.model.Scenario;
 import executor.model.Step;
+import executor.service.factory.DIFactory;
+import executor.service.factory.Factory;
 import executor.service.step_execution.StepExecutable;
 import executor.service.step_execution.StepExecutionClickCSS;
 import executor.service.step_execution.StepExecutionClickXpath;
@@ -12,8 +15,18 @@ import java.util.List;
 
 public class ScenarioExecutorServiceImpl implements ScenarioExecutor {
     private static final ScenarioExecutorServiceImpl INSTANCE = new ScenarioExecutorServiceImpl();
+    private static final StepExecutionClickCSS STEP_EXECUTION_CLICK_CSS;
+    private static final StepExecutionClickXpath STEP_EXECUTION_CLICK_XPATH;
+    private static final StepExecutionServiceSleep STEP_EXECUTION_SERVICE_SLEEP;
 
     protected ScenarioExecutorServiceImpl() {  }
+
+    static {
+        Factory factory = DIFactory.getInstance();
+        STEP_EXECUTION_CLICK_CSS = factory.getInstance(StepExecutionClickCSS.class);
+        STEP_EXECUTION_CLICK_XPATH = factory.getInstance(StepExecutionClickXpath.class);
+        STEP_EXECUTION_SERVICE_SLEEP = factory.getInstance(StepExecutionServiceSleep.class);
+    }
 
     public static ScenarioExecutorServiceImpl getInstance() {
         return INSTANCE;
@@ -24,22 +37,18 @@ public class ScenarioExecutorServiceImpl implements ScenarioExecutor {
         List<Step> steps = scenario.getSteps();
         for (Step step : steps) {
             String action = step.getAction();
-            StepExecutable stepExecutable = null;
-            switch (action){
+            switch (action) {
                 case "clickCss":
-                    stepExecutable = new StepExecutionClickCSS();
-                    stepExecutable.step(webDriver, step);
+                    STEP_EXECUTION_CLICK_CSS.step(webDriver, step);
                     break;
                 case "clickXpath":
-                    stepExecutable = new StepExecutionClickXpath();
-                    stepExecutable.step(webDriver, step);
+                    STEP_EXECUTION_CLICK_XPATH.step(webDriver, step);
                     break;
                 case "sleep":
-                    stepExecutable = new StepExecutionServiceSleep();
-                    stepExecutable.step(webDriver, step);
+                    STEP_EXECUTION_SERVICE_SLEEP.step(webDriver, step);
                     break;
                 default:
-                    stepExecutable.step(webDriver, step);
+                    throw new UnknownActionException(String.format("Action with name=%s is unfamiliar", action));
             }
         }
     }

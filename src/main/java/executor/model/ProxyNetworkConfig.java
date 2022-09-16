@@ -11,8 +11,7 @@ public class ProxyNetworkConfig {
         this.port = port;
     }
 
-    public ProxyNetworkConfig() {
-    }
+    public ProxyNetworkConfig() {  }
 
     public String getHostname() {
         return hostname;

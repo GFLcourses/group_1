@@ -1,9 +1,8 @@
 package executor.service.parallel_stuff;
 
-import executor.model.ThreadPoolConfigDto;
+import executor.model.ThreadPoolConfig;
 import executor.util.PropertiesReader;
 
-import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -15,7 +14,7 @@ public class ParallelFlowExecuteServiceImpl implements ParallelFlowExecuteServic
     protected ParallelFlowExecuteServiceImpl() {  }
 
     static {
-        ThreadPoolConfigDto poolConfig = PropertiesReader.readThreadPoolConfig();
+        ThreadPoolConfig poolConfig = PropertiesReader.readThreadPoolConfig();
         THREAD_POOL_EXECUTOR = new ThreadPoolExecutor(
                 poolConfig.getCorePoolSize(),
                 poolConfig.getCorePoolSize(),

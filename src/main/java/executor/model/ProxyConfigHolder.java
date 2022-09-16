@@ -2,13 +2,13 @@ package executor.model;
 
 import java.util.Objects;
 
-public class ProxyConfigHolderDto implements Comparable<ProxyConfigHolderDto> {
+public class ProxyConfigHolder implements Comparable<ProxyConfigHolder> {
     private ProxyNetworkConfig proxyNetworkConfig;
     private ProxyCredentials proxyCredentials;
 
-    public ProxyConfigHolderDto() {  }
+    public ProxyConfigHolder() {  }
 
-    public ProxyConfigHolderDto(ProxyNetworkConfig proxyNetworkConfig, ProxyCredentials proxyCredentials) {
+    public ProxyConfigHolder(ProxyNetworkConfig proxyNetworkConfig, ProxyCredentials proxyCredentials) {
         this.proxyNetworkConfig = proxyNetworkConfig;
         this.proxyCredentials = proxyCredentials;
     }
@@ -33,7 +33,7 @@ public class ProxyConfigHolderDto implements Comparable<ProxyConfigHolderDto> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ProxyConfigHolderDto that = (ProxyConfigHolderDto) o;
+        ProxyConfigHolder that = (ProxyConfigHolder) o;
         return Objects.equals(proxyNetworkConfig, that.proxyNetworkConfig) && Objects.equals(proxyCredentials, that.proxyCredentials);
     }
 
@@ -51,7 +51,7 @@ public class ProxyConfigHolderDto implements Comparable<ProxyConfigHolderDto> {
     }
 
     @Override
-    public int compareTo(ProxyConfigHolderDto o) {
+    public int compareTo(ProxyConfigHolder o) {
         if (this.proxyNetworkConfig.equals(o.proxyNetworkConfig)){
             return 1;
         } else {

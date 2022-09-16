@@ -12,27 +12,35 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-public class ScenarioSourceListenerImpl implements ScenarioSourceListener{
+public class ScenarioSourceListenerImpl implements ScenarioSourceListener {
+    private static final ScenarioSourceListenerImpl INSTANCE = new ScenarioSourceListenerImpl();
     private static final Queue<Scenario> scenarios = new PriorityQueue<>();
-    
-     {
+
+    protected ScenarioSourceListenerImpl() {  }
+
+    static {
         ObjectMapper objectMapper = new ObjectMapper();
-         URI uri = null;
-         try {
-             uri = this.getClass().getClassLoader().getResource("someScenario.json").toURI();
-         } catch (URISyntaxException e) {
-             throw new RuntimeException(e);
-         }
-         File file = new File(uri);
-         try {
-             scenarios.addAll(objectMapper.readValue(file, new TypeReference<List<Scenario>>(){}));
-         } catch (IOException e) {
-             throw new RuntimeException(e);
-         }
-     }
+        URI uri = null;
+        try {
+            uri = ScenarioSourceListenerImpl.class.getClassLoader().getResource("someScenario.json").toURI();
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+        File file = new File(uri);
+        try {
+            scenarios.addAll(objectMapper.readValue(file, new TypeReference<List<Scenario>>() {
+            }));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static ScenarioSourceListenerImpl getInstance() {
+        return INSTANCE;
+    }
 
     @Override
     public Scenario getScenario() {
-         return scenarios.poll();
+        return scenarios.poll();
     }
 }

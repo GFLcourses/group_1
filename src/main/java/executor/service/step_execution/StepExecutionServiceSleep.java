@@ -5,7 +5,14 @@ import org.openqa.selenium.WebDriver;
 
 import java.util.concurrent.TimeUnit;
 
-public class StepExecutionServiceSleep implements StepExecutable{
+public class StepExecutionServiceSleep implements StepExecutable {
+    private static final StepExecutionServiceSleep INSTANCE = new StepExecutionServiceSleep();
+
+    protected StepExecutionServiceSleep() {  }
+
+    public static StepExecutionServiceSleep getInstance() {
+        return INSTANCE;
+    }
 
     @Override
     public String getStepAction() {

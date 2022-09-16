@@ -3,7 +3,7 @@ package executor.service.proxy;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import executor.model.ProxyCredentials;
 import executor.model.ProxyNetworkConfig;
-import executor.model.ProxyConfigHolderDto;
+import executor.model.ProxyConfigHolder;
 
 import java.io.File;
 import java.net.URI;
@@ -13,7 +13,7 @@ import java.util.Queue;
 
 public class ProxySourcesClientJson implements ProxySourcesClient {
     private static final ProxySourcesClientJson INSTANCE = new ProxySourcesClientJson();
-    private static final Queue<ProxyConfigHolderDto> PROXIES_QUEUE = new PriorityQueue<>();
+    private static final Queue<ProxyConfigHolder> PROXIES_QUEUE = new PriorityQueue<>();
 
     protected ProxySourcesClientJson() {  }
 
@@ -30,7 +30,7 @@ public class ProxySourcesClientJson implements ProxySourcesClient {
     }
 
     @Override
-    public Optional<ProxyConfigHolderDto> getProxy() {
+    public Optional<ProxyConfigHolder> getProxy() {
         return Optional.ofNullable(PROXIES_QUEUE.poll());
     }
 
@@ -47,7 +47,7 @@ public class ProxySourcesClientJson implements ProxySourcesClient {
             ProxyNetworkConfig[] proxyNetworkConfigs = objectMapper.readValue(networkFile, ProxyNetworkConfig[].class);
 
             for (int i = 0; i < proxyNetworkConfigs.length; i++) {
-                PROXIES_QUEUE.add(new ProxyConfigHolderDto(proxyNetworkConfigs[i], proxyCredentials[i]));
+                PROXIES_QUEUE.add(new ProxyConfigHolder(proxyNetworkConfigs[i], proxyCredentials[i]));
             }
         } catch (Exception e) {
             e.printStackTrace();

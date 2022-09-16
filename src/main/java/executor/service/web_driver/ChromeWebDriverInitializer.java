@@ -2,8 +2,8 @@ package executor.service.web_driver;
 
 import executor.model.ProxyCredentials;
 import executor.model.ProxyNetworkConfig;
-import executor.model.WebDriverConfigDTO;
-import executor.model.ProxyConfigHolderDto;
+import executor.model.WebDriverConfig;
+import executor.model.ProxyConfigHolder;
 import executor.util.PropertiesReader;
 
 import org.openqa.selenium.WebDriver;
@@ -24,13 +24,21 @@ public class ChromeWebDriverInitializer implements WebDriverInitializer {
     }
 
     @Override
-    public WebDriver initialize(ProxyConfigHolderDto proxyConfigHolder) {
-        WebDriverConfigDTO webDriverConfigDTO = PropertiesReader.readWebDriverConfig();
+    public WebDriver initialize(ProxyConfigHolder proxyConfigHolder) {
+        WebDriverConfig webDriverConfig = PropertiesReader.readWebDriverConfig();
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("user-agent=" + webDriverConfigDTO.getUserAgent());
+        options.addArguments("user-agent=" + webDriverConfig.getUserAgent());
+        options.addArguments("--no-sandbox");
+        options.addArguments("--headless");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--window-size=1920x1080");
         setProxyServer(options, proxyConfigHolder.getProxyNetworkConfig(), proxyConfigHolder.getProxyCredentials());
 
         return new ChromeDriver(options);
+    }
+
+    public WebDriver initialize() {
+        return new ChromeDriver(new ChromeOptions());
     }
 
     private void setProxyServer(ChromeOptions options, ProxyNetworkConfig networkConfig, ProxyCredentials credentials) {
