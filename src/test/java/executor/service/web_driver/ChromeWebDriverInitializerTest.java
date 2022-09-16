@@ -57,21 +57,4 @@ public class ChromeWebDriverInitializerTest {
         TimeUnit.SECONDS.sleep(5L);
         searchInput.sendKeys(Keys.ENTER);
     }
-
-    @Test
-    public void scenario1() throws InterruptedException {
-        ScenarioSourceListenerImpl scenarioSourceListener = ScenarioSourceListenerImpl.getInstance();
-        Scenario scenario = scenarioSourceListener.getScenario();
-        List<Step> steps = scenario.getSteps();
-        webDriver.get(scenario.getSite());
-
-        System.out.println(steps);
-
-        WebElement webElement = webDriver.findElement(By.cssSelector(steps.get(2).getValue()));
-        webElement.click();
-        TimeUnit.SECONDS.sleep(Long.parseLong(steps.get(1).getValue()));
-        WebElement webElement1 = webDriver.findElement(By.xpath(steps.get(0).getValue()));
-        webElement1.click();
-        TimeUnit.SECONDS.sleep(Long.parseLong(steps.get(1).getValue()));
-    }
 }
