@@ -25,27 +25,27 @@ public final class PropertiesReader {
         }
     }
 
-    public static ThreadPoolConfigDto readThreadPoolConfig() {
+    public static ThreadPoolConfig readThreadPoolConfig() {
         Integer poolSize = CONFIGURATION.getInt("threadpool.size");
         Long aliveTime = CONFIGURATION.getLong("threadpool.aliveTime");
-        return new ThreadPoolConfigDto(poolSize, aliveTime);
+        return new ThreadPoolConfig(poolSize, aliveTime);
     }
 
-    public static WebDriverConfigDTO readWebDriverConfig() {
+    public static WebDriverConfig readWebDriverConfig() {
         String webDriverExecutable = CONFIGURATION.getString("webdriver.executable");
         String userAgent = CONFIGURATION.getString("webdriver.userAgent");
         Long pageLoadTimeout = CONFIGURATION.getLong("webdriver.pageLoadTimeout");
         Long implicitlyWait = CONFIGURATION.getLong("webdriver.implicitlyWait");
 
-        return new WebDriverConfigDTO(webDriverExecutable,userAgent,pageLoadTimeout,implicitlyWait);
+        return new WebDriverConfig(webDriverExecutable,userAgent,pageLoadTimeout,implicitlyWait);
     }
 
-    public static ProxyConfigHolderDto readProxyConfig() {
+    public static ProxyConfigHolder readProxyConfig() {
         String hostname = CONFIGURATION.getString("proxy.hostname");
         Integer port = CONFIGURATION.getInt("proxy.port");
         String username = CONFIGURATION.getString("proxy.username");
         String password = CONFIGURATION.getString("proxy.password");
 
-        return new ProxyConfigHolderDto(new ProxyNetworkConfig(hostname,port), new ProxyCredentials(username,password));
+        return new ProxyConfigHolder(new ProxyNetworkConfig(hostname,port), new ProxyCredentials(username,password));
     }
 }

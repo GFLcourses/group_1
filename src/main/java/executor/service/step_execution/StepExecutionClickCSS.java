@@ -6,13 +6,21 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class StepExecutionClickCSS implements StepExecutable{
+    private static final StepExecutionClickCSS INSTANCE = new StepExecutionClickCSS();
+
+    protected StepExecutionClickCSS() {  }
+
+    public static StepExecutionClickCSS getInstance() {
+        return INSTANCE;
+    }
+
     @Override
     public String getStepAction() {
         return "clickCss";
     }
 
     @Override
-    public void step(WebDriver webDriver, Step step){
+    public void step(WebDriver webDriver, Step step) {
         if (webDriver == null || step == null) {
             return;
         }
