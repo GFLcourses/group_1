@@ -1,6 +1,7 @@
 package executor.service.parallel_stuff;
 
 import executor.exception.NoProxyFoundException;
+import executor.exception.NoScenarioFoundException;
 import executor.model.Scenario;
 import executor.service.proxy.ProxySourcesClient;
 import executor.service.scenario.ScenarioExecutor;
@@ -12,9 +13,10 @@ import executor.service.factory.DIFactory;
 import executor.model.ProxyConfigHolder;
 import executor.service.proxy.ProxySourcesClientJson;
 import executor.service.web_driver.ChromeWebDriverInitializer;
-import org.openqa.selenium.WebDriver;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.WebDriver;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -45,63 +47,52 @@ public class FlowRunnerImpl implements FlowRunner {
         return INSTANCE;
     }
 
-    public void run() {
-        Queue<ProxyConfigHolder> proxyQueue = new ConcurrentLinkedQueue<>();
+    public void run() throws InterruptedException {
         Queue<Scenario> scenarioQueue = new ConcurrentLinkedQueue<>();
+        Queue<ProxyConfigHolder> proxyQueue = new ConcurrentLinkedQueue<>();
 
         while (!Thread.currentThread().isInterrupted()) {
-            CountDownLatch scenarioCounter = new CountDownLatch(1);
-            CountDownLatch proxyCounter = new CountDownLatch(1);
-            CountDownLatch commonCounter = new CountDownLatch(3);
+            CountDownLatch counter = new CountDownLatch(3);
 
-            Runnable getScenarios = () -> {
+            Runnable getScenario = () -> {
+                counter.countDown();
                 try {
-                    scenarioQueue.add(SCENARIO_SOURCE_LISTENER.getScenario());
-                    scenarioCounter.countDown();
-                    commonCounter.countDown();
+                    Scenario scenario = SCENARIO_SOURCE_LISTENER.getScenario().orElseThrow(
+                            () -> new NoScenarioFoundException("scenario is not presented")
+                    );
+                    scenarioQueue.add(scenario);
                 } catch (Exception e) {
-                    System.out.println("-scenario");
+                    LOGGER.log(Level.ALL, e.getMessage());
                 }
             };
-            FLOW_EXECUTOR.parallelExecute(getScenarios);
+            FLOW_EXECUTOR.parallelExecute(getScenario);
 
-            Runnable getProxies = () -> {
+            Runnable getProxy = () -> {
+                counter.countDown();
                 try {
-                    proxyQueue.add(PROXY_SOURCES_CLIENT.getProxy().orElseThrow(
-                            ()-> new NoProxyFoundException("Proxy is null")));
-                    proxyCounter.countDown();
-                    commonCounter.countDown();
+                    ProxyConfigHolder proxyConfigHolder = PROXY_SOURCES_CLIENT.getProxy().orElseThrow(
+                            () -> new NoProxyFoundException("proxy is not presented")
+                    );
+                    proxyQueue.add(proxyConfigHolder);
                 } catch (Exception e) {
-                    System.out.println("-proxy");
+                    LOGGER.log(Level.ALL, e.getMessage());
                 }
             };
-            FLOW_EXECUTOR.parallelExecute(getProxies);
+            FLOW_EXECUTOR.parallelExecute(getProxy);
 
             Runnable worker = () -> {
-                WebDriver driver = null;
-                try {
-                    scenarioCounter.await();
-                    proxyCounter.await();
-                    driver = CHROME_WEB_DRIVER_INITIALIZER.initialize();
-                    SCENARIO_EXECUTOR.execute(SCENARIO_SOURCE_LISTENER.getScenario(), driver);
-                    commonCounter.countDown();
-                    System.out.println("success'");
-                } catch (Exception e) {
-                    LOGGER.error("{}, {}! An exception occurred!",
-                            this.getClass().getPackageName(),
-                            this.getClass().getSimpleName(),
-                            e);
-                    assert driver != null;
-                    driver.quit();
+                counter.countDown();
+                if (!scenarioQueue.isEmpty() && !proxyQueue.isEmpty()) {
+                    Scenario scenario = scenarioQueue.poll();
+                    ProxyConfigHolder proxyConfigHolder = proxyQueue.poll();
+                    WebDriver webDriver = CHROME_WEB_DRIVER_INITIALIZER.initialize();
+                    SCENARIO_EXECUTOR.execute(scenario, webDriver);
+                    webDriver.quit();
                 }
             };
             FLOW_EXECUTOR.parallelExecute(worker);
 
-            try {
-                commonCounter.await();
-            } catch (Exception e) {
-
-            }
+            counter.await();
         }
     }
 }
