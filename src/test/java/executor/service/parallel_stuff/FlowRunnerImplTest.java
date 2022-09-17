@@ -6,7 +6,7 @@ import static org.mockito.Mockito.*;
 
 public class FlowRunnerImplTest extends TestCase {
 
-    public void testTestRun() {
+    public void testTestRun() throws Exception {
         FlowRunner flowRunner = mock(FlowRunnerImpl.class);
         flowRunner.run();
         verify(flowRunner, times(1)).run();

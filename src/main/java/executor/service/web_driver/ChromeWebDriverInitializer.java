@@ -37,7 +37,7 @@ public class ChromeWebDriverInitializer implements WebDriverInitializer {
         return new ChromeDriver(options);
     }
 
-    public WebDriver initialize() {
+    public synchronized WebDriver initialize() {
         return new ChromeDriver(new ChromeOptions());
     }
 
