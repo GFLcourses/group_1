@@ -12,8 +12,8 @@ public class ScenarioSourceListenerImplTest {
     private static final ScenarioSourceListenerImpl scenarioSourceListener = new ScenarioSourceListenerImpl();
 
     @Test
-    public void getScenarioTest() throws URISyntaxException, IOException {
-        Scenario scenario = scenarioSourceListener.getScenario();
+    public void getScenarioTest() {
+        Scenario scenario = scenarioSourceListener.getScenario().get();
         assertEquals(scenario.getName(),"test scenario 2");
         assertEquals(scenario.getSite(),"http://info.cern.ch");
         assertEquals(scenario.getSteps().size(),3);
