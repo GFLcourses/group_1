@@ -30,7 +30,7 @@ public class ParallelFlowExecuteServiceImpl implements ParallelFlowExecuteServic
     }
 
     @Override
-    public void parallelExecute(Runnable task) {
+    public synchronized void parallelExecute(Runnable task) {
         this.parallelExecute(task, null);
     }
 
