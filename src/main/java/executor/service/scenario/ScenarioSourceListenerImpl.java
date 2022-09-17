@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -40,7 +41,7 @@ public class ScenarioSourceListenerImpl implements ScenarioSourceListener {
     }
 
     @Override
-    public Scenario getScenario() {
-        return scenarios.poll();
+    public synchronized Optional<Scenario> getScenario() {
+        return Optional.ofNullable(scenarios.poll());
     }
 }
