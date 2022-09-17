@@ -84,7 +84,7 @@ public class FlowRunnerImpl implements FlowRunner {
                 counter.countDown();
                 if (!scenarioQueue.isEmpty() && !proxyQueue.isEmpty()) {
                     Scenario scenario = scenarioQueue.poll();
-                    ProxyConfigHolder proxyConfigHolder = proxyQueue.poll();
+//                    ProxyConfigHolder proxyConfigHolder = proxyQueue.poll();
                     WebDriver webDriver = CHROME_WEB_DRIVER_INITIALIZER.initialize();
                     SCENARIO_EXECUTOR.execute(scenario, webDriver);
                     webDriver.quit();
