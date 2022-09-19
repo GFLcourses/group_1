@@ -9,7 +9,6 @@ import org.openqa.selenium.WebDriver;
 import static org.mockito.Mockito.*;
 
 public class StepExecutionClickCSSTest {
-
     private static Step step;
 
     @Before
@@ -20,7 +19,7 @@ public class StepExecutionClickCSSTest {
     @Test
     public void step() {
         WebDriver webDriver = mock(WebDriver.class);
-        StepExecutionClickCSS stepExecutionClickCSS = new StepExecutionClickCSS();
+        StepExecutionClickCSS stepExecutionClickCSS = StepExecutionClickCSS.getInstance();
         stepExecutionClickCSS.step(webDriver, step);
         verify(webDriver, times(1)).findElement(By.cssSelector("body > ul > li:nth-child(1) > a"));
     }

@@ -21,9 +21,16 @@ public class StepExecutionClickXpath implements StepExecutable {
 
     @Override
     public void step(WebDriver webDriver, Step step) {
-        WebElement webElement = webDriver.findElement(By.xpath(step.getValue()));
-        if (webElement.isEnabled()) {
-            webElement.click();
+        if (webDriver == null || step == null) {
+            return;
+        }
+        try {
+            WebElement webElement = webDriver.findElement(By.xpath(step.getValue()));
+            if (webElement.isEnabled()) {
+                webElement.click();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
