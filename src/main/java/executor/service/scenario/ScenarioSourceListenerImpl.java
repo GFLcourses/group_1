@@ -3,9 +3,11 @@ package executor.service.scenario;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import executor.model.Scenario;
+import org.apache.logging.log4j.core.util.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -24,12 +26,12 @@ public class ScenarioSourceListenerImpl implements ScenarioSourceListener {
         URI uri = null;
         String s;
         try {
-            uri = ScenarioSourceListenerImpl.class.getClassLoader().getResource("/someScenario.json").toURI();
-            s = ScenarioSourceListenerImpl.class.getClassLoader().getResource("someScenario.json").getFile();
+            uri = ScenarioSourceListenerImpl.class.getClassLoader().getResource("someScenario.json").toURI();
+            s = ScenarioSourceListenerImpl.class.getClassLoader().getResource("someScenario.json").getPath();
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
-        File file = new File(uri);
+        File file = new File(s);
         try {
             scenarios.addAll(objectMapper.readValue(file, new TypeReference<List<Scenario>>() {
             }));
