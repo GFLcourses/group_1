@@ -21,6 +21,8 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
+    - install chromnium
+      run: sudo apt install chromium-browser
     - name: Set executable
       run: chmod +x src/main/resources/chromedriver 
     - name: Build with Maven
