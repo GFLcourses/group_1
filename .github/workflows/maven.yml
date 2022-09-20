@@ -22,6 +22,6 @@ jobs:
         java-version: '11'
         distribution: 'adopt'
     - name: Set executable
-      run: chmod +x chromedriver 
+      run: chmod +x src/main/resources/chromedriver 
     - name: Build with Maven
       run: mvn -B package --file pom.xml
