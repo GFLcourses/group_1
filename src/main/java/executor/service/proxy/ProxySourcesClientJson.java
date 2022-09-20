@@ -36,14 +36,14 @@ public class ProxySourcesClientJson implements ProxySourcesClient {
 
     protected static void readProxies() {
         try {
-            URI credentialsURI = ProxySourcesClientJson.class.getClassLoader().getResource("ProxyCredentials.json").toURI();
-            URI networkURI = ProxySourcesClientJson.class.getClassLoader().getResource("ProxyNetwork.json").toURI();
+            URI credentialsURI = ProxySourcesClientJson.class.getClassLoader().getResource("/ProxyCredentials.json").toURI();
+            URI networkURI = ProxySourcesClientJson.class.getClassLoader().getResource("/ProxyNetwork.json").toURI();
 
             String s = ProxySourcesClientJson.class.getClassLoader().getResource("ProxyCredentials.json").getFile();
             String s1 = ProxySourcesClientJson.class.getClassLoader().getResource("ProxyNetwork.json").getFile();
 
-            File credentialsFile = new File(s);
-            File networkFile = new File(s1);
+            File credentialsFile = new File(credentialsURI);
+            File networkFile = new File(networkURI);
 
             ObjectMapper objectMapper = new ObjectMapper();
             ProxyCredentials[] proxyCredentials = objectMapper.readValue(credentialsFile, ProxyCredentials[].class);

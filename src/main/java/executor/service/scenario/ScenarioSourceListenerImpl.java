@@ -24,12 +24,12 @@ public class ScenarioSourceListenerImpl implements ScenarioSourceListener {
         URI uri = null;
         String s;
         try {
-            uri = ScenarioSourceListenerImpl.class.getClassLoader().getResource("someScenario.json").toURI();
+            uri = ScenarioSourceListenerImpl.class.getClassLoader().getResource("/someScenario.json").toURI();
             s = ScenarioSourceListenerImpl.class.getClassLoader().getResource("someScenario.json").getFile();
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
-        File file = new File(s);
+        File file = new File(uri);
         try {
             scenarios.addAll(objectMapper.readValue(file, new TypeReference<List<Scenario>>() {
             }));
