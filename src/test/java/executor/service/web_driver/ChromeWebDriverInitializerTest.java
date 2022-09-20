@@ -17,14 +17,6 @@ public class ChromeWebDriverInitializerTest {
         assertNotNull(actual);
     }
 
-    @Test
-    public void initializeWithProxyConfigArgumentShouldInitializeWebDriverInstance() {
-        ProxyConfigHolder proxyConfigHolder = ProxySourcesClientJson.getInstance().getProxy().get();
-        WebDriver actual = ChromeWebDriverInitializer.getInstance().initialize(proxyConfigHolder);
-
-        assertNotNull(actual);
-    }
-
     @Test(expected = NullPointerException.class)
     public void initializeWithProxyConfigArgumentShouldThrowNullPointerExceptionIfProxyConfigIsNull() {
         ProxyConfigHolder proxyConfigHolder = null;
