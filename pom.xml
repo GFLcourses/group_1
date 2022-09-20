@@ -90,6 +90,12 @@
                     <artifactId>maven-assembly-plugin</artifactId>
                     <version>3.3.0</version>
                     <configuration>
+                        <archive>
+                          <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>executor.Application</mainClass>
+                          </manifest>
+                        </archive>
                         <descriptorRefs>jar-with-dependencies</descriptorRefs>
                     </configuration>
                     <executions>
