@@ -12,7 +12,7 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v2
@@ -21,9 +21,5 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
-    - install chromnium
-      run: sudo apt install chromium-browser
-    - name: Set executable
-      run: chmod +x src/main/resources/chromedriver 
     - name: Build with Maven
       run: mvn -B package --file pom.xml
