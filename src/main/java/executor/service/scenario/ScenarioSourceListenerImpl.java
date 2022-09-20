@@ -23,17 +23,9 @@ public class ScenarioSourceListenerImpl implements ScenarioSourceListener {
 
     static {
         ObjectMapper objectMapper = new ObjectMapper();
-        URI uri = null;
-        String s;
+
         try {
-            uri = ScenarioSourceListenerImpl.class.getClassLoader().getResource("someScenario.json").toURI();
-            s = ScenarioSourceListenerImpl.class.getClassLoader().getResource("someScenario.json").getPath();
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
-        File file = new File(s);
-        try {
-            scenarios.addAll(objectMapper.readValue(file, new TypeReference<List<Scenario>>() {
+            scenarios.addAll(objectMapper.readValue(new File("/home/ubuntu/staff/someScenario.json"), new TypeReference<List<Scenario>>() {
             }));
         } catch (IOException e) {
             throw new RuntimeException(e);
