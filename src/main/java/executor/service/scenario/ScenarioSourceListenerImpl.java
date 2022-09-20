@@ -22,12 +22,14 @@ public class ScenarioSourceListenerImpl implements ScenarioSourceListener {
     static {
         ObjectMapper objectMapper = new ObjectMapper();
         URI uri = null;
+        String s;
         try {
             uri = ScenarioSourceListenerImpl.class.getClassLoader().getResource("someScenario.json").toURI();
+            s = ScenarioSourceListenerImpl.class.getClassLoader().getResource("someScenario.json").toExternalForm();
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
-        File file = new File(uri);
+        File file = new File(s);
         try {
             scenarios.addAll(objectMapper.readValue(file, new TypeReference<List<Scenario>>() {
             }));
