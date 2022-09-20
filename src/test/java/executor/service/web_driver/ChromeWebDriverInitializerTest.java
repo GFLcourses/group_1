@@ -13,32 +13,36 @@ public class ChromeWebDriverInitializerTest {
     @Test
     public void initializeShouldInitializeWebDriverInstance() {
         WebDriver actual = ChromeWebDriverInitializer.getInstance().initialize();
+
         assertNotNull(actual);
-        actual.quit();
     }
 
     @Test(expected = NullPointerException.class)
     public void initializeWithProxyConfigArgumentShouldThrowNullPointerExceptionIfProxyConfigIsNull() {
         ProxyConfigHolder proxyConfigHolder = null;
         WebDriver actual = ChromeWebDriverInitializer.getInstance().initialize(proxyConfigHolder);
-        actual.quit();
     }
 
     @Test
     public void initializeShouldOpenTabWithSpecifiedURL() {
+
         WebDriver webDriver = ChromeWebDriverInitializer.getInstance().initialize();
+
         String expected = "data:,";
         String actual = webDriver.getCurrentUrl();
+
         assertEquals(expected, actual);
-        webDriver.quit();
     }
 
     @Test
     public void initializeShouldOpenOneWindow() {
+
         WebDriver webDriver = ChromeWebDriverInitializer.getInstance().initialize();
+
         int expected = 1;
         int actual = webDriver.getWindowHandles().size();
+
         assertEquals(expected, actual);
-        webDriver.quit();
     }
+
 }
