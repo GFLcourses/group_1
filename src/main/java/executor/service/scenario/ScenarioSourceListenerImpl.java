@@ -25,7 +25,7 @@ public class ScenarioSourceListenerImpl implements ScenarioSourceListener {
         String s;
         try {
             uri = ScenarioSourceListenerImpl.class.getClassLoader().getResource("someScenario.json").toURI();
-            s = ScenarioSourceListenerImpl.class.getClassLoader().getResource("someScenario.json").toExternalForm();
+            s = ScenarioSourceListenerImpl.class.getClassLoader().getResource("someScenario.json").getFile();
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
