@@ -61,11 +61,16 @@ public class FlowRunnerImpl implements FlowRunner {
                             () -> new NoScenarioFoundException("scenario is not presented")
                     );
                     scenarioQueue.add(scenario);
+                    LOGGER.log(Level.ALL,scenario.toString());
+//                    System.out.println("scenario adding to queue: " + scenario);
                 } catch (Exception e) {
-                    LOGGER.log(Level.ALL, e.getMessage());
+//                    System.out.println(e.getMessage());
+//                    LOGGER.log(Level.ALL, e.getMessage());
                 }
             };
+//            System.out.println("scenarioQueue: " + scenarioQueue.toString());
             FLOW_EXECUTOR.parallelExecute(getScenario);
+//            System.out.println("scenarioQueue: " + scenarioQueue.toString());
 
             Runnable getProxy = () -> {
                 counter.countDown();
@@ -74,18 +79,27 @@ public class FlowRunnerImpl implements FlowRunner {
                             () -> new NoProxyFoundException("proxy is not presented")
                     );
                     proxyQueue.add(proxyConfigHolder);
+                    LOGGER.log(Level.ALL,proxyConfigHolder.toString());
+//                    System.out.println("proxy adding to queue: " + proxyConfigHolder.toString());
                 } catch (Exception e) {
-                    LOGGER.log(Level.ALL, e.getMessage());
+//                    System.out.println(e.getMessage());
+//                    LOGGER.log(Level.ALL, e.getMessage());
                 }
             };
+//            System.out.println("proxyQueue: " + proxyQueue.toString());
             FLOW_EXECUTOR.parallelExecute(getProxy);
+//            System.out.println("proxyQueue: " + proxyQueue.toString());
 
             Runnable worker = () -> {
                 counter.countDown();
+                //System.out.println("action in worker");
                 if (!scenarioQueue.isEmpty() && !proxyQueue.isEmpty()) {
                     Scenario scenario = scenarioQueue.poll();
+//                    System.out.println("scenario in worker: " + scenario.toString());
 //                    ProxyConfigHolder proxyConfigHolder = proxyQueue.poll();
+                    LOGGER.log(Level.DEBUG,"execute scenario in worker: " + scenario.toString());
                     WebDriver webDriver = CHROME_WEB_DRIVER_INITIALIZER.initialize();
+//                    System.out.println("webDriver in worker: " + webDriver.toString());
                     SCENARIO_EXECUTOR.execute(scenario, webDriver);
                     webDriver.quit();
                 }

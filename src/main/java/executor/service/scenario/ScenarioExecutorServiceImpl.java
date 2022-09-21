@@ -8,11 +8,15 @@ import executor.service.factory.Factory;
 import executor.service.step_execution.StepExecutionClickCSS;
 import executor.service.step_execution.StepExecutionClickXpath;
 import executor.service.step_execution.StepExecutionServiceSleep;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 
 import java.util.List;
 
 public class ScenarioExecutorServiceImpl implements ScenarioExecutor {
+    private static final Logger LOGGER = LogManager.getLogger(ScenarioExecutorServiceImpl.class);
     private static final ScenarioExecutorServiceImpl INSTANCE = new ScenarioExecutorServiceImpl();
     private static final StepExecutionClickCSS STEP_EXECUTION_CLICK_CSS;
     private static final StepExecutionClickXpath STEP_EXECUTION_CLICK_XPATH;
@@ -34,6 +38,8 @@ public class ScenarioExecutorServiceImpl implements ScenarioExecutor {
     @Override
     public void execute(Scenario scenario, WebDriver webDriver) {
         webDriver.get(scenario.getSite());
+//        System.out.println("execute scenario: " + scenario.toString() );
+        LOGGER.log(Level.DEBUG,"executed scenario: " + scenario.toString());
         List<Step> steps = scenario.getSteps();
         for (Step step : steps) {
             String action = step.getAction();
