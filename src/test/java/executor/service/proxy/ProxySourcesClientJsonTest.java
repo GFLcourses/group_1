@@ -3,6 +3,7 @@ package executor.service.proxy;
 import executor.model.ProxyConfigHolder;
 import executor.model.ProxyCredentials;
 import executor.model.ProxyNetworkConfig;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 public class ProxySourcesClientJsonTest {
     private final ProxySourcesClientJson proxySourcesClientJson = ProxySourcesClientJson.getInstance();
 
-    @Test
+    @Ignore
     public void getProxyTest() {
         List<ProxyConfigHolder> proxies = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
