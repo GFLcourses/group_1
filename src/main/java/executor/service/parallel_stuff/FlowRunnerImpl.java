@@ -62,7 +62,7 @@ public class FlowRunnerImpl implements FlowRunner {
                     scenarioQueue.add(scenario);
                     LOGGER.log(Level.DEBUG, scenario.toString());
                 } catch (Exception e) {
-                    LOGGER.log(Level.ERROR, e.getMessage());
+//                    LOGGER.log(Level.ERROR, e.getMessage());
                 }
             };
             FLOW_EXECUTOR.parallelExecute(getScenario);
@@ -74,7 +74,7 @@ public class FlowRunnerImpl implements FlowRunner {
                     proxyQueue.add(proxyConfigHolder);
                     LOGGER.log(Level.DEBUG, proxyConfigHolder.toString());
                 } catch (Exception e) {
-                    LOGGER.log(Level.ERROR, e.getMessage());
+//                    LOGGER.log(Level.ERROR, e.getMessage());
                 }
             };
             FLOW_EXECUTOR.parallelExecute(getProxy);
