@@ -16,7 +16,7 @@ public class ChromeWebDriverInitializer implements WebDriverInitializer {
     protected ChromeWebDriverInitializer() {  }
 
     static {
-        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver");
+        System.setProperty("webdriver.chrome.driver", "/home/ubuntu/staff/chromedriver");
     }
 
     public static ChromeWebDriverInitializer getInstance() {

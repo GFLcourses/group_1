@@ -37,8 +37,8 @@ public class ScenarioExecutorServiceImpl implements ScenarioExecutor {
 
     @Override
     public void execute(Scenario scenario, WebDriver webDriver) {
+        LOGGER.log(Level.DEBUG,"start execute scenario");
         webDriver.get(scenario.getSite());
-//        System.out.println("execute scenario: " + scenario.toString() );
         LOGGER.log(Level.DEBUG,"executed scenario: " + scenario.toString());
         List<Step> steps = scenario.getSteps();
         for (Step step : steps) {
