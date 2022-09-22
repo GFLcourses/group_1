@@ -16,7 +16,7 @@ public class ChromeWebDriverInitializer implements WebDriverInitializer {
     protected ChromeWebDriverInitializer() {  }
 
     static {
-        System.setProperty("webdriver.chrome.driver", "/home/ubuntu/staff/chromedriver");
+        System.setProperty("webdriver.chrome.driver", "/home/ubuntu/staff/chromedriver.exe");
     }
 
     public static ChromeWebDriverInitializer getInstance() {
@@ -38,7 +38,10 @@ public class ChromeWebDriverInitializer implements WebDriverInitializer {
     }
 
     public synchronized WebDriver initialize() {
-        return new ChromeDriver(new ChromeOptions());
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--no-sandbox");
+        options.addArguments("--headless");
+        return new ChromeDriver(options);
     }
 
     private void setProxyServer(ChromeOptions options, ProxyNetworkConfig networkConfig, ProxyCredentials credentials) {
