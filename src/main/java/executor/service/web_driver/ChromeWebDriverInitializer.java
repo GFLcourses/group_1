@@ -41,7 +41,7 @@ public class ChromeWebDriverInitializer implements WebDriverInitializer {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--no-sandbox");
         options.addArguments("--headless");
-        return new ChromeDriver(new ChromeOptions());
+        return new ChromeDriver(options);
     }
 
     private void setProxyServer(ChromeOptions options, ProxyNetworkConfig networkConfig, ProxyCredentials credentials) {
