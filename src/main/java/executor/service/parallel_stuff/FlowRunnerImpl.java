@@ -32,7 +32,8 @@ public class FlowRunnerImpl implements FlowRunner {
     private static final ChromeWebDriverInitializer CHROME_WEB_DRIVER_INITIALIZER;
     private static final ScenarioSourceListener SCENARIO_SOURCE_LISTENER;
 
-    protected FlowRunnerImpl() {  }
+    protected FlowRunnerImpl() {
+    }
 
     static {
         Factory factory = DIFactory.getInstance();
@@ -61,9 +62,11 @@ public class FlowRunnerImpl implements FlowRunner {
                             () -> new NoScenarioFoundException("scenario is not presented")
                     );
                     scenarioQueue.add(scenario);
-                    LOGGER.log(Level.ALL,scenario.toString());
+                    LOGGER.log(Level.DEBUG, scenario.toString());
+                } catch (NoScenarioFoundException e) {
+                    LOGGER.log(Level.DEBUG, e.getMessage());
                 } catch (Exception e) {
-//                    LOGGER.log(Level.ALL, e.getMessage());
+                    LOGGER.log(Level.ERROR, e.getMessage());
                 }
             };
             FLOW_EXECUTOR.parallelExecute(getScenario);
@@ -75,29 +78,38 @@ public class FlowRunnerImpl implements FlowRunner {
                             () -> new NoProxyFoundException("proxy is not presented")
                     );
                     proxyQueue.add(proxyConfigHolder);
-                    LOGGER.log(Level.ALL,proxyConfigHolder.toString());
+                    LOGGER.log(Level.DEBUG, proxyConfigHolder.toString());
+                } catch (NoProxyFoundException e) {
+                    LOGGER.log(Level.DEBUG, e.getMessage());
                 } catch (Exception e) {
-//                    LOGGER.log(Level.ALL, e.getMessage());
+                    LOGGER.log(Level.ERROR, e.getMessage());
                 }
             };
             FLOW_EXECUTOR.parallelExecute(getProxy);
 
-            Runnable worker = () -> {
-                counter.countDown();
-                if (!scenarioQueue.isEmpty() && !proxyQueue.isEmpty()) {
-                    LOGGER.log(Level.DEBUG,"execute scenario in worker");
-                    Scenario scenario = scenarioQueue.poll();
-//                    ProxyConfigHolder proxyConfigHolder = proxyQueue.poll();
-                    LOGGER.log(Level.DEBUG,"start webDriver init");
-                    WebDriver webDriver = CHROME_WEB_DRIVER_INITIALIZER.initialize();
-                    LOGGER.log(Level.DEBUG,"end webDriver init");
-                    LOGGER.log(Level.DEBUG,"execute scenario in worker: " + scenario.toString());
-                    SCENARIO_EXECUTOR.execute(scenario, webDriver);
-                    webDriver.quit();
+            synchronized (scenarioQueue) {
+                synchronized (proxyQueue) {
+                    if (scenarioQueue.isEmpty() || proxyQueue.isEmpty()) {
+                        counter.countDown();
+                    } else {
+                        Runnable worker = () -> {
+                            LOGGER.log(Level.DEBUG, "execute scenario in worker");
+                            Scenario scenario = scenarioQueue.poll();
+                            ProxyConfigHolder proxyConfigHolder = proxyQueue.poll();
+                            LOGGER.log(Level.DEBUG, "start webDriver init");
+                            System.out.println("webdriver start");
+                            WebDriver webDriver = CHROME_WEB_DRIVER_INITIALIZER.initialize();
+                            System.out.println("webdriver end");
+                            LOGGER.log(Level.DEBUG, "end webDriver init");
+                            LOGGER.log(Level.DEBUG, "execute scenario in worker: " + scenario.toString());
+                            SCENARIO_EXECUTOR.execute(scenario, webDriver);
+                            webDriver.quit();
+                        };
+                        FLOW_EXECUTOR.parallelExecute(worker);
+                        counter.countDown();
+                    }
                 }
-            };
-            FLOW_EXECUTOR.parallelExecute(worker);
-
+            }
             counter.await();
         }
     }
