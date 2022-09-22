@@ -58,15 +58,11 @@ public class FlowRunnerImpl implements FlowRunner {
             Runnable getScenario = () -> {
                 counter.countDown();
                 try {
-                    Scenario scenario = SCENARIO_SOURCE_LISTENER.getScenario().orElseThrow(
-                            () -> new NoScenarioFoundException("scenario is not presented")
-                    );
+                    Scenario scenario = SCENARIO_SOURCE_LISTENER.getScenario().get();
                     scenarioQueue.add(scenario);
                     LOGGER.log(Level.DEBUG, scenario.toString());
-                } catch (NoScenarioFoundException e) {
-                    LOGGER.log(Level.DEBUG, e.getMessage());
                 } catch (Exception e) {
-                    LOGGER.log(Level.ERROR, e.getMessage());
+//                    LOGGER.log(Level.ERROR, e.getMessage());
                 }
             };
             FLOW_EXECUTOR.parallelExecute(getScenario);
@@ -74,15 +70,11 @@ public class FlowRunnerImpl implements FlowRunner {
             Runnable getProxy = () -> {
                 counter.countDown();
                 try {
-                    ProxyConfigHolder proxyConfigHolder = PROXY_SOURCES_CLIENT.getProxy().orElseThrow(
-                            () -> new NoProxyFoundException("proxy is not presented")
-                    );
+                    ProxyConfigHolder proxyConfigHolder = PROXY_SOURCES_CLIENT.getProxy().get();
                     proxyQueue.add(proxyConfigHolder);
                     LOGGER.log(Level.DEBUG, proxyConfigHolder.toString());
-                } catch (NoProxyFoundException e) {
-                    LOGGER.log(Level.DEBUG, e.getMessage());
                 } catch (Exception e) {
-                    LOGGER.log(Level.ERROR, e.getMessage());
+//                    LOGGER.log(Level.ERROR, e.getMessage());
                 }
             };
             FLOW_EXECUTOR.parallelExecute(getProxy);
