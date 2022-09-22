@@ -79,7 +79,7 @@ public class FlowRunnerImpl implements FlowRunner {
             };
             FLOW_EXECUTOR.parallelExecute(getProxy);
 
-            if (!scenarioQueue.isEmpty() && !proxyQueue.isEmpty()) {
+            if (!scenarioQueue.isEmpty()) {
                 counter.countDown();
                 Runnable worker = () -> {
                     LOGGER.log(Level.DEBUG, "execute scenario in worker");
