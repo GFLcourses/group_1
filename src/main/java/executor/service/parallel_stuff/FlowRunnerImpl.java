@@ -79,28 +79,24 @@ public class FlowRunnerImpl implements FlowRunner {
             };
             FLOW_EXECUTOR.parallelExecute(getProxy);
 
-            synchronized (scenarioQueue) {
-                synchronized (proxyQueue) {
-                    if (scenarioQueue.isEmpty() || proxyQueue.isEmpty()) {
-                        counter.countDown();
-                    } else {
-                        Runnable worker = () -> {
-                            LOGGER.log(Level.DEBUG, "execute scenario in worker");
-                            Scenario scenario = scenarioQueue.poll();
-                            ProxyConfigHolder proxyConfigHolder = proxyQueue.poll();
-                            LOGGER.log(Level.DEBUG, "start webDriver init");
-                            System.out.println("webdriver start");
-                            WebDriver webDriver = CHROME_WEB_DRIVER_INITIALIZER.initialize();
-                            System.out.println("webdriver end");
-                            LOGGER.log(Level.DEBUG, "end webDriver init");
-                            LOGGER.log(Level.DEBUG, "execute scenario in worker: " + scenario.toString());
-                            SCENARIO_EXECUTOR.execute(scenario, webDriver);
-                            webDriver.quit();
-                        };
-                        FLOW_EXECUTOR.parallelExecute(worker);
-                        counter.countDown();
-                    }
-                }
+            if (!scenarioQueue.isEmpty() && !proxyQueue.isEmpty()) {
+                counter.countDown();
+                Runnable worker = () -> {
+                    LOGGER.log(Level.DEBUG, "execute scenario in worker");
+                    Scenario scenario = scenarioQueue.poll();
+                    ProxyConfigHolder proxyConfigHolder = proxyQueue.poll();
+                    LOGGER.log(Level.DEBUG, "start webDriver init");
+                    System.out.println("webdriver start");
+                    WebDriver webDriver = CHROME_WEB_DRIVER_INITIALIZER.initialize();
+                    System.out.println("webdriver end");
+                    LOGGER.log(Level.DEBUG, "end webDriver init");
+                    LOGGER.log(Level.DEBUG, "execute scenario in worker: " + scenario.toString());
+                    SCENARIO_EXECUTOR.execute(scenario, webDriver);
+                    webDriver.quit();
+                };
+                FLOW_EXECUTOR.parallelExecute(worker);
+            } else {
+                counter.countDown();
             }
             counter.await();
         }
