@@ -16,7 +16,7 @@ public class ChromeWebDriverInitializer implements WebDriverInitializer {
     protected ChromeWebDriverInitializer() {  }
 
     static {
-        System.setProperty("webdriver.chrome.driver", "/home/ubuntu/staff/chromedriver");
+        System.setProperty("webdriver.chrome.driver", "/home/ubuntu/staff/chromedriver.exe");
     }
 
     public static ChromeWebDriverInitializer getInstance() {
@@ -38,6 +38,9 @@ public class ChromeWebDriverInitializer implements WebDriverInitializer {
     }
 
     public synchronized WebDriver initialize() {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--no-sandbox");
+        options.addArguments("--headless");
         return new ChromeDriver(new ChromeOptions());
     }
 
