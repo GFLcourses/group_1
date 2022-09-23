@@ -1,7 +1,5 @@
 package executor.service.parallel_stuff;
 
-import executor.exception.NoProxyFoundException;
-import executor.exception.NoScenarioFoundException;
 import executor.model.Scenario;
 import executor.service.proxy.ProxySourcesClient;
 import executor.service.scenario.ScenarioExecutor;
@@ -17,12 +15,13 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
+import org.springframework.boot.CommandLineRunner;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CountDownLatch;
 
-public class FlowRunnerImpl implements FlowRunner {
+public class FlowRunnerImpl implements CommandLineRunner {
     private static final FlowRunnerImpl INSTANCE = new FlowRunnerImpl();
     private static final Logger LOGGER = LogManager.getLogger(FlowRunnerImpl.class);
 
@@ -32,8 +31,7 @@ public class FlowRunnerImpl implements FlowRunner {
     private static final ChromeWebDriverInitializer CHROME_WEB_DRIVER_INITIALIZER;
     private static final ScenarioSourceListener SCENARIO_SOURCE_LISTENER;
 
-    protected FlowRunnerImpl() {
-    }
+    public FlowRunnerImpl() {  }
 
     static {
         Factory factory = DIFactory.getInstance();
@@ -48,7 +46,8 @@ public class FlowRunnerImpl implements FlowRunner {
         return INSTANCE;
     }
 
-    public void run() throws InterruptedException {
+    @Override
+    public void run(String... args) throws Exception {
         Queue<Scenario> scenarioQueue = new ConcurrentLinkedQueue<>();
         Queue<ProxyConfigHolder> proxyQueue = new ConcurrentLinkedQueue<>();
 
