@@ -82,16 +82,17 @@ public class FlowRunnerImpl implements FlowRunner {
             if (!scenarioQueue.isEmpty()) {
                 counter.countDown();
                 Runnable worker = () -> {
-                    LOGGER.log(Level.DEBUG, "execute scenario in worker");
+                    LOGGER.log(Level.DEBUG, "start worker");
                     Scenario scenario = scenarioQueue.poll();
-                    ProxyConfigHolder proxyConfigHolder = proxyQueue.poll();
+                    //ProxyConfigHolder proxyConfigHolder = proxyQueue.poll();
                     LOGGER.log(Level.DEBUG, "start webDriver init");
                     System.out.println("webdriver start");
                     WebDriver webDriver = CHROME_WEB_DRIVER_INITIALIZER.initialize();
                     System.out.println("webdriver end");
                     LOGGER.log(Level.DEBUG, "end webDriver init");
-                    LOGGER.log(Level.DEBUG, "execute scenario in worker: " + scenario.toString());
+                    LOGGER.log(Level.DEBUG, "start execute scenario in worker: " + scenario.toString());
                     SCENARIO_EXECUTOR.execute(scenario, webDriver);
+                    LOGGER.log(Level.DEBUG,"end execute scenario in worker");
                     webDriver.quit();
                 };
                 FLOW_EXECUTOR.parallelExecute(worker);
