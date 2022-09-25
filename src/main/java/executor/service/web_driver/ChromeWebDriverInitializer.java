@@ -39,8 +39,8 @@ public class ChromeWebDriverInitializer implements WebDriverInitializer {
 
     public synchronized WebDriver initialize() {
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-sandbox");
-        options.addArguments("--headless");
+        options.addArguments("--crash-dumps-dir=/tmp");
+        options.addArguments("--disable-dev-shm-usage");
         return new ChromeDriver(options);
     }
 

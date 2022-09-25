@@ -45,13 +45,19 @@ public class ScenarioExecutorServiceImpl implements ScenarioExecutor {
             String action = step.getAction();
             switch (action) {
                 case "clickCss":
+                    LOGGER.log(Level.DEBUG, "start execute step CSS");
                     STEP_EXECUTION_CLICK_CSS.step(webDriver, step);
+                    LOGGER.log(Level.DEBUG, "end execute step CSS");
                     break;
                 case "clickXpath":
+                    LOGGER.log(Level.DEBUG, "start execute step XPATH");
                     STEP_EXECUTION_CLICK_XPATH.step(webDriver, step);
+                    LOGGER.log(Level.DEBUG, "end execute step XPATH");
                     break;
                 case "sleep":
+                    LOGGER.log(Level.DEBUG, "start execute step SLEEP");
                     STEP_EXECUTION_SERVICE_SLEEP.step(webDriver, step);
+                    LOGGER.log(Level.DEBUG, "end execute step SLEEP");
                     break;
                 default:
                     throw new UnknownActionException(String.format("Action with name=%s is unfamiliar", action));
