@@ -3,18 +3,16 @@ package executor.service.scenario;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import executor.model.Scenario;
-import org.apache.logging.log4j.core.util.FileUtils;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
+@Service
 public class ScenarioSourceListenerImpl implements ScenarioSourceListener {
     private static final ScenarioSourceListenerImpl INSTANCE = new ScenarioSourceListenerImpl();
     private static final Queue<Scenario> scenarios = new PriorityQueue<>();

@@ -12,9 +12,11 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ScenarioExecutorServiceImpl implements ScenarioExecutor {
     private static final Logger LOGGER = LogManager.getLogger(ScenarioExecutorServiceImpl.class);
     private static final ScenarioExecutorServiceImpl INSTANCE = new ScenarioExecutorServiceImpl();

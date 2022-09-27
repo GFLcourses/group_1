@@ -4,13 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import executor.model.ProxyCredentials;
 import executor.model.ProxyNetworkConfig;
 import executor.model.ProxyConfigHolder;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.net.URI;
 import java.util.Optional;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
+@Service
 public class ProxySourcesClientJson implements ProxySourcesClient {
     private static final ProxySourcesClientJson INSTANCE = new ProxySourcesClientJson();
     private static final Queue<ProxyConfigHolder> PROXIES_QUEUE = new PriorityQueue<>();

@@ -1,4 +1,4 @@
-package executor.service.parallel_stuff;
+package executor.service.flow;
 
 import org.junit.Test;
 

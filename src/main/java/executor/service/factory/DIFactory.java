@@ -1,8 +1,8 @@
 package executor.service.factory;
 
 import executor.exception.UnknownClassException;
-import executor.service.parallel_stuff.ParallelFlowExecuteServiceImpl;
-import executor.service.parallel_stuff.FlowRunnerImpl;
+import executor.service.flow.ParallelFlowExecuteServiceImpl;
+import executor.service.flow.FlowRunnerImpl;
 import executor.service.scenario.ScenarioSourceListenerImpl;
 import executor.service.proxy.ProxySourcesClientJson;
 import executor.service.scenario.ScenarioExecutorServiceImpl;
