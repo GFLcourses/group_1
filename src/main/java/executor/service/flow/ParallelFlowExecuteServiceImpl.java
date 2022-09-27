@@ -1,8 +1,4 @@
-package executor.service.parallel_stuff;
-
-import executor.model.ThreadPoolConfig;
-import executor.util.PropertiesReader;
-import org.springframework.beans.factory.annotation.Value;
+package executor.service.flow;
 
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;

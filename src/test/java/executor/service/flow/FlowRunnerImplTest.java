@@ -1,9 +1,7 @@
-package executor.service.parallel_stuff;
+package executor.service.flow;
 
 import junit.framework.TestCase;
 import org.junit.Ignore;
-
-import static org.mockito.Mockito.*;
 
 public class FlowRunnerImplTest extends TestCase {
     @Ignore
