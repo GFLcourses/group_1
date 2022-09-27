@@ -9,14 +9,16 @@ import executor.util.PropertiesReader;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ChromeWebDriverInitializer implements WebDriverInitializer {
     private static final ChromeWebDriverInitializer INSTANCE = new ChromeWebDriverInitializer();
 
     protected ChromeWebDriverInitializer() {  }
 
     static {
-        System.setProperty("webdriver.chrome.driver", "/home/ubuntu/staff/chromedriver");
+        System.setProperty("webdriver.chrome.driver", "C:/chromedriver.exe");
     }
 
     public static ChromeWebDriverInitializer getInstance() {
@@ -28,8 +30,8 @@ public class ChromeWebDriverInitializer implements WebDriverInitializer {
         WebDriverConfig webDriverConfig = PropertiesReader.readWebDriverConfig();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("user-agent=" + webDriverConfig.getUserAgent());
-        options.addArguments("--no-sandbox");
-        options.addArguments("--headless");
+//        options.addArguments("--no-sandbox");
+//        options.addArguments("--headless");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--window-size=1920x1080");
         setProxyServer(options, proxyConfigHolder.getProxyNetworkConfig(), proxyConfigHolder.getProxyCredentials());

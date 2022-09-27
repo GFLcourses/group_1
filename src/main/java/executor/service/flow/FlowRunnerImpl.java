@@ -1,6 +1,9 @@
 package executor.service.flow;
 
 import executor.model.Scenario;
+import executor.service.flow.executable_flows.ProxyFlow;
+import executor.service.flow.executable_flows.ScenarioFlow;
+import executor.service.flow.executable_flows.WorkerFlow;
 import executor.service.proxy.ProxySourcesClient;
 import executor.service.scenario.ScenarioExecutor;
 import executor.service.scenario.ScenarioExecutorServiceImpl;
@@ -11,25 +14,31 @@ import executor.service.factory.DIFactory;
 import executor.model.ProxyConfigHolder;
 import executor.service.proxy.ProxySourcesClientJson;
 import executor.service.web_driver.ChromeWebDriverInitializer;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.WebDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 
 import java.util.Queue;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.CountDownLatch;
 
 public class FlowRunnerImpl implements CommandLineRunner {
     private static final FlowRunnerImpl INSTANCE = new FlowRunnerImpl();
-    private static final Logger LOGGER = LogManager.getLogger(FlowRunnerImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FlowRunnerImpl.class);
 
     private static final ParallelFlowExecuteService FLOW_EXECUTOR;
     private static final ScenarioExecutor SCENARIO_EXECUTOR;
     private static final ProxySourcesClient PROXY_SOURCES_CLIENT;
     private static final ChromeWebDriverInitializer CHROME_WEB_DRIVER_INITIALIZER;
     private static final ScenarioSourceListener SCENARIO_SOURCE_LISTENER;
+
+    @Autowired
+    WorkerFlow workerFlow;
+    @Autowired
+    ScenarioFlow scenarioFlow;
+    @Autowired
+    ProxyFlow proxyFlow;
 
     public FlowRunnerImpl() {  }
 
@@ -47,58 +56,31 @@ public class FlowRunnerImpl implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         Queue<Scenario> scenarioQueue = new ConcurrentLinkedQueue<>();
         Queue<ProxyConfigHolder> proxyQueue = new ConcurrentLinkedQueue<>();
 
         while (!Thread.currentThread().isInterrupted()) {
-            CountDownLatch counter = new CountDownLatch(3);
+            try {
+                CompletableFuture<Scenario> futureScenario = scenarioFlow.getScenario();
+                CompletableFuture<ProxyConfigHolder> futureProxyConfig = proxyFlow.getProxy();
 
-            Runnable getScenario = () -> {
-                counter.countDown();
-                try {
-                    Scenario scenario = SCENARIO_SOURCE_LISTENER.getScenario().get();
-                    scenarioQueue.add(scenario);
-                    LOGGER.log(Level.DEBUG, scenario.toString());
-                } catch (Exception e) {
-//                    LOGGER.log(Level.ERROR, e.getMessage());
+                if (futureProxyConfig.isDone() && futureScenario.isDone()) {
+                    new WorkerFlow(CHROME_WEB_DRIVER_INITIALIZER, SCENARIO_EXECUTOR).work(
+                            futureScenario.get(), futureProxyConfig.get()
+                    );
+                } else {
+                    if (!scenarioQueue.isEmpty() && !proxyQueue.isEmpty()) {
+                        new WorkerFlow(CHROME_WEB_DRIVER_INITIALIZER, SCENARIO_EXECUTOR).work(
+                                scenarioQueue.poll(), proxyQueue.poll()
+                        );
+                    }
+                    scenarioQueue.add(futureScenario.get());
+                    proxyQueue.add(futureProxyConfig.get());
                 }
-            };
-            FLOW_EXECUTOR.parallelExecute(getScenario);
-
-            Runnable getProxy = () -> {
-                counter.countDown();
-                try {
-                    ProxyConfigHolder proxyConfigHolder = PROXY_SOURCES_CLIENT.getProxy().get();
-                    proxyQueue.add(proxyConfigHolder);
-                    LOGGER.log(Level.DEBUG, proxyConfigHolder.toString());
-                } catch (Exception e) {
-//                    LOGGER.log(Level.ERROR, e.getMessage());
-                }
-            };
-            FLOW_EXECUTOR.parallelExecute(getProxy);
-
-            if (!scenarioQueue.isEmpty()) {
-                counter.countDown();
-                Runnable worker = () -> {
-                    LOGGER.log(Level.DEBUG, "start worker");
-                    Scenario scenario = scenarioQueue.poll();
-                    //ProxyConfigHolder proxyConfigHolder = proxyQueue.poll();
-                    LOGGER.log(Level.DEBUG, "start webDriver init");
-                    System.out.println("webdriver start");
-                    WebDriver webDriver = CHROME_WEB_DRIVER_INITIALIZER.initialize();
-                    System.out.println("webdriver end");
-                    LOGGER.log(Level.DEBUG, "end webDriver init");
-                    LOGGER.log(Level.DEBUG, "start execute scenario in worker: " + scenario.toString());
-                    SCENARIO_EXECUTOR.execute(scenario, webDriver);
-                    LOGGER.log(Level.DEBUG,"end execute scenario in worker");
-                    webDriver.quit();
-                };
-                FLOW_EXECUTOR.parallelExecute(worker);
-            } else {
-                counter.countDown();
+            } catch (Exception e) {
+//                e.printStackTrace();
             }
-            counter.await();
         }
     }
 }
