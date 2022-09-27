@@ -14,8 +14,8 @@ import executor.service.factory.DIFactory;
 import executor.model.ProxyConfigHolder;
 import executor.service.proxy.ProxySourcesClientJson;
 import executor.service.web_driver.ChromeWebDriverInitializer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 
@@ -25,7 +25,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class FlowRunnerImpl implements CommandLineRunner {
     private static final FlowRunnerImpl INSTANCE = new FlowRunnerImpl();
-    private static final Logger LOGGER = LoggerFactory.getLogger(FlowRunnerImpl.class);
+    private static final Logger LOGGER = LogManager.getLogger(FlowRunnerImpl.class);
 
     private static final ParallelFlowExecuteService FLOW_EXECUTOR;
     private static final ScenarioExecutor SCENARIO_EXECUTOR;
