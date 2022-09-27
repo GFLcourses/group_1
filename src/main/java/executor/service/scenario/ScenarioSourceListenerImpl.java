@@ -23,7 +23,7 @@ public class ScenarioSourceListenerImpl implements ScenarioSourceListener {
         ObjectMapper objectMapper = new ObjectMapper();
 
         try {
-            scenarios.addAll(objectMapper.readValue(new File("C:/someScenario.json"), new TypeReference<List<Scenario>>() {
+            scenarios.addAll(objectMapper.readValue(new File("/home/ubuntu/staff/someScenario.json"), new TypeReference<List<Scenario>>() {
             }));
         } catch (IOException e) {
             throw new RuntimeException(e);

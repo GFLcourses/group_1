@@ -38,8 +38,8 @@ public class ProxySourcesClientJson implements ProxySourcesClient {
     protected static void readProxies() {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            ProxyCredentials[] proxyCredentials = objectMapper.readValue(new File("C:/ProxyCredentials.json"), ProxyCredentials[].class);
-            ProxyNetworkConfig[] proxyNetworkConfigs = objectMapper.readValue(new File("C:/ProxyNetwork.json"), ProxyNetworkConfig[].class);
+            ProxyCredentials[] proxyCredentials = objectMapper.readValue(new File("/home/ubuntu/staff/ProxyCredentials.json"), ProxyCredentials[].class);
+            ProxyNetworkConfig[] proxyNetworkConfigs = objectMapper.readValue(new File("/home/ubuntu/staff/ProxyNetwork.json"), ProxyNetworkConfig[].class);
 
             for (int i = 0; i < proxyNetworkConfigs.length; i++) {
                 PROXIES_QUEUE.add(new ProxyConfigHolder(proxyNetworkConfigs[i], proxyCredentials[i]));
