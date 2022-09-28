@@ -1,18 +1,14 @@
 package executor.service.scenario;
 
 import executor.model.Step;
-import executor.service.factory.DIFactory;
-import executor.service.factory.Factory;
 import executor.service.step_execution.StepExecutionClickCSS;
 import executor.service.step_execution.StepExecutionClickXpath;
 import executor.service.step_execution.StepExecutionServiceSleep;
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
