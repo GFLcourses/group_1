@@ -4,15 +4,14 @@ import executor.model.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class StepExecutionClickCSS implements StepExecutable{
-    private static final StepExecutionClickCSS INSTANCE = new StepExecutionClickCSS();
 
-    protected StepExecutionClickCSS() {  }
-
-    public static StepExecutionClickCSS getInstance() {
-        return INSTANCE;
-    }
+    @Autowired
+    public StepExecutionClickCSS() {  }
 
     @Override
     public String getStepAction() {

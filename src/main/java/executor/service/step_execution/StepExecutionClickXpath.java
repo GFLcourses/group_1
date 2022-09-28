@@ -4,15 +4,14 @@ import executor.model.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class StepExecutionClickXpath implements StepExecutable {
-    private static final StepExecutionClickXpath INSTANCE = new StepExecutionClickXpath();
 
-    protected StepExecutionClickXpath() {  }
-
-    public static StepExecutionClickXpath getInstance() {
-        return INSTANCE;
-    }
+    @Autowired
+    public StepExecutionClickXpath() {  }
 
     @Override
     public String getStepAction() {
