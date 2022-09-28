@@ -8,13 +8,10 @@ import org.openqa.selenium.WebDriver;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
-@Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
 public class WorkerFlow {
     private static final Logger LOGGER = LoggerFactory.getLogger(WorkerFlow.class);
     private final ChromeWebDriverInitializer webDriverInitializer;
