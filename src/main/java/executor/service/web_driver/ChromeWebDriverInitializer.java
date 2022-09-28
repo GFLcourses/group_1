@@ -9,21 +9,19 @@ import executor.util.PropertiesReader;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ChromeWebDriverInitializer implements WebDriverInitializer {
-    private static final ChromeWebDriverInitializer INSTANCE = new ChromeWebDriverInitializer();
 
-    protected ChromeWebDriverInitializer() {  }
+    @Autowired
+    public ChromeWebDriverInitializer() {  }
 
     static {
         System.setProperty("webdriver.chrome.driver", "/home/ubuntu/staff/chromedriver");
     }
 
-    public static ChromeWebDriverInitializer getInstance() {
-        return INSTANCE;
-    }
 
     @Override
     public WebDriver initialize(ProxyConfigHolder proxyConfigHolder) {

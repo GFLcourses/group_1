@@ -5,14 +5,22 @@ import executor.model.ProxyCredentials;
 import executor.model.ProxyNetworkConfig;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
+@Ignore
 public class ProxySourcesClientJsonTest {
-    private final ProxySourcesClientJson proxySourcesClientJson = ProxySourcesClientJson.getInstance();
+    private final ProxySourcesClientJson proxySourcesClientJson;
+
+    @Autowired
+    public ProxySourcesClientJsonTest(ProxySourcesClientJson proxySourcesClientJson) {
+        this.proxySourcesClientJson = proxySourcesClientJson;
+    }
 
     @Ignore
     public void getProxyTest() {

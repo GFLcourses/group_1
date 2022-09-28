@@ -2,17 +2,16 @@ package executor.service.step_execution;
 
 import executor.model.Step;
 import org.openqa.selenium.WebDriver;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
 
+@Service
 public class StepExecutionServiceSleep implements StepExecutable {
-    private static final StepExecutionServiceSleep INSTANCE = new StepExecutionServiceSleep();
 
-    protected StepExecutionServiceSleep() {  }
-
-    public static StepExecutionServiceSleep getInstance() {
-        return INSTANCE;
-    }
+    @Autowired
+    public StepExecutionServiceSleep() {  }
 
     @Override
     public String getStepAction() {

@@ -3,8 +3,6 @@ package executor.service.scenario;
 import executor.exception.UnknownActionException;
 import executor.model.Scenario;
 import executor.model.Step;
-import executor.service.factory.DIFactory;
-import executor.service.factory.Factory;
 import executor.service.step_execution.StepExecutionClickCSS;
 import executor.service.step_execution.StepExecutionClickXpath;
 import executor.service.step_execution.StepExecutionServiceSleep;
@@ -12,6 +10,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,22 +18,15 @@ import java.util.List;
 @Service
 public class ScenarioExecutorServiceImpl implements ScenarioExecutor {
     private static final Logger LOGGER = LogManager.getLogger(ScenarioExecutorServiceImpl.class);
-    private static final ScenarioExecutorServiceImpl INSTANCE = new ScenarioExecutorServiceImpl();
-    private static final StepExecutionClickCSS STEP_EXECUTION_CLICK_CSS;
-    private static final StepExecutionClickXpath STEP_EXECUTION_CLICK_XPATH;
-    private static final StepExecutionServiceSleep STEP_EXECUTION_SERVICE_SLEEP;
+    private final StepExecutionClickCSS stepExecutionClickCSS;
+    private final StepExecutionClickXpath stepExecutionClickXpath;
+    private final StepExecutionServiceSleep stepExecutionServiceSleep;
 
-    protected ScenarioExecutorServiceImpl() {  }
-
-    static {
-        Factory factory = DIFactory.getInstance();
-        STEP_EXECUTION_CLICK_CSS = factory.getInstance(StepExecutionClickCSS.class);
-        STEP_EXECUTION_CLICK_XPATH = factory.getInstance(StepExecutionClickXpath.class);
-        STEP_EXECUTION_SERVICE_SLEEP = factory.getInstance(StepExecutionServiceSleep.class);
-    }
-
-    public static ScenarioExecutorServiceImpl getInstance() {
-        return INSTANCE;
+    @Autowired
+    public ScenarioExecutorServiceImpl(StepExecutionClickCSS stepExecutionClickCSS, StepExecutionClickXpath stepExecutionClickXpath, StepExecutionServiceSleep stepExecutionServiceSleep) {
+        this.stepExecutionClickCSS = stepExecutionClickCSS;
+        this.stepExecutionClickXpath = stepExecutionClickXpath;
+        this.stepExecutionServiceSleep = stepExecutionServiceSleep;
     }
 
     @Override
@@ -48,17 +40,17 @@ public class ScenarioExecutorServiceImpl implements ScenarioExecutor {
             switch (action) {
                 case "clickCss":
                     LOGGER.log(Level.DEBUG, "start execute step CSS");
-                    STEP_EXECUTION_CLICK_CSS.step(webDriver, step);
+                    this.stepExecutionClickCSS.step(webDriver, step);
                     LOGGER.log(Level.DEBUG, "end execute step CSS");
                     break;
                 case "clickXpath":
                     LOGGER.log(Level.DEBUG, "start execute step XPATH");
-                    STEP_EXECUTION_CLICK_XPATH.step(webDriver, step);
+                    this.stepExecutionClickXpath.step(webDriver, step);
                     LOGGER.log(Level.DEBUG, "end execute step XPATH");
                     break;
                 case "sleep":
                     LOGGER.log(Level.DEBUG, "start execute step SLEEP");
-                    STEP_EXECUTION_SERVICE_SLEEP.step(webDriver, step);
+                    this.stepExecutionServiceSleep.step(webDriver, step);
                     LOGGER.log(Level.DEBUG, "end execute step SLEEP");
                     break;
                 default:

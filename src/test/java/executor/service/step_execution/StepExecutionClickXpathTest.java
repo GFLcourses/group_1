@@ -2,6 +2,7 @@ package executor.service.step_execution;
 
 import executor.model.Step;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -9,8 +10,8 @@ import org.openqa.selenium.WebDriver;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
+@Ignore
 public class StepExecutionClickXpathTest {
-
     private StepExecutionClickXpath stepExecutionClickXpath;
     private static final String ACTION = "clickXpath";
     private static final String VALUE = "/html/body/p";

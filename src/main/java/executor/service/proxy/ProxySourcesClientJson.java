@@ -13,7 +13,6 @@ import java.util.Queue;
 
 @Service
 public class ProxySourcesClientJson implements ProxySourcesClient {
-    private static final ProxySourcesClientJson INSTANCE = new ProxySourcesClientJson();
     private static final Queue<ProxyConfigHolder> PROXIES_QUEUE = new PriorityQueue<>();
 
     protected ProxySourcesClientJson() {  }
@@ -24,10 +23,6 @@ public class ProxySourcesClientJson implements ProxySourcesClient {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public static ProxySourcesClientJson getInstance() {
-        return INSTANCE;
     }
 
     @Override

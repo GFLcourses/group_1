@@ -2,10 +2,12 @@ package executor.service.step_execution;
 
 import executor.model.Step;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+@Ignore
 public class StepExecutionServiceSleepTest {
     private static StepExecutionServiceSleep stepExecutionServiceSleep;
     private static final String ACTION = "sleep";
