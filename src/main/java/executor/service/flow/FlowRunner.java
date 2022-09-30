@@ -38,7 +38,7 @@ public class FlowRunner implements CommandLineRunner {
 
         while (!Thread.currentThread().isInterrupted()) {
             try {
-                CompletableFuture<Scenario> futureScenario = scenarioFlow.getScenario();
+                CompletableFuture<Scenario> futureScenario = scenarioFlow.execute();
                 CompletableFuture<ProxyConfigHolder> futureProxyConfig = proxyFlow.execute();
 
                 if (futureProxyConfig.isDone() && futureScenario.isDone()) {
