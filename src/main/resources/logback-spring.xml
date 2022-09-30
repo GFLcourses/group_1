@@ -8,7 +8,7 @@
     </appender>
     <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
              <!--    server source path -> /home/ubuntu/logs/app.log     -->
-        <file>C:/app.log</file>
+        <file>/home/ubuntu/logs/app.log</file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
         </encoder>
