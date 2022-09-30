@@ -18,14 +18,14 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 @Service
 @Qualifier("flowRunnerImpl")
-public class FlowRunnerImpl implements CommandLineRunner {
-    private static final Logger LOGGER = LogManager.getLogger(FlowRunnerImpl.class);
-    private final WorkerFlow workerFlow;
+public class FlowRunner implements CommandLineRunner {
+    private static final Logger LOGGER = LogManager.getLogger(FlowRunner.class);
     private final ScenarioFlow scenarioFlow;
     private final ProxyFlow proxyFlow;
+    private final WorkerFlow workerFlow;
 
     @Autowired
-    public FlowRunnerImpl(WorkerFlow workerFlow, ScenarioFlow scenarioFlow, ProxyFlow proxyFlow) {
+    public FlowRunner(WorkerFlow workerFlow, ScenarioFlow scenarioFlow, ProxyFlow proxyFlow) {
         this.workerFlow = workerFlow;
         this.scenarioFlow = scenarioFlow;
         this.proxyFlow = proxyFlow;
@@ -38,8 +38,8 @@ public class FlowRunnerImpl implements CommandLineRunner {
 
         while (!Thread.currentThread().isInterrupted()) {
             try {
-                CompletableFuture<Scenario> futureScenario = scenarioFlow.getScenario();
-                CompletableFuture<ProxyConfigHolder> futureProxyConfig = proxyFlow.getProxy();
+                CompletableFuture<Scenario> futureScenario = scenarioFlow.execute();
+                CompletableFuture<ProxyConfigHolder> futureProxyConfig = proxyFlow.execute();
 
                 if (futureProxyConfig.isDone() && futureScenario.isDone()) {
                     workerFlow.work(futureScenario.get(), futureProxyConfig.get());

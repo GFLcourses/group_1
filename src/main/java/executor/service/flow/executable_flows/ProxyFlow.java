@@ -7,12 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.concurrent.CompletableFuture;
 
 @Service
-public class ProxyFlow {
+public class ProxyFlow implements ExecutableFlow<ProxyConfigHolder> {
     private final ProxySourcesClient proxySourcesClient;
 
     @Autowired
@@ -21,9 +19,8 @@ public class ProxyFlow {
     }
 
     @Async(value = "taskScheduler")
-    public CompletableFuture<ProxyConfigHolder> getProxy() throws
-            URISyntaxException,
-            IOException {
+    @Override
+    public CompletableFuture<ProxyConfigHolder> execute() {
         ProxyConfigHolder proxyConfigHolder = this.proxySourcesClient.getProxy().orElseThrow(
                 () -> new NoProxyFoundException("proxy is not presented")
         );

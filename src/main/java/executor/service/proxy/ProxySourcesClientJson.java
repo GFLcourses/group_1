@@ -27,7 +27,11 @@ public class ProxySourcesClientJson implements ProxySourcesClient {
 
     @Override
     public synchronized Optional<ProxyConfigHolder> getProxy() {
-        return Optional.ofNullable(PROXIES_QUEUE.poll());
+        try {
+            return Optional.ofNullable(PROXIES_QUEUE.poll());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     protected static void readProxies() {

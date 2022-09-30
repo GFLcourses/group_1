@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.CompletableFuture;
 
 @Service
-public class ScenarioFlow {
+public class ScenarioFlow implements ExecutableFlow<Scenario> {
     private final ScenarioSourceListener scenarioSourceListener;
 
     @Autowired
@@ -19,7 +19,8 @@ public class ScenarioFlow {
     }
 
     @Async(value = "taskScheduler")
-    public CompletableFuture<Scenario> getScenario() {
+    @Override
+    public CompletableFuture<Scenario> execute() {
         Scenario scenario = this.scenarioSourceListener.getScenario().orElseThrow(
                 () -> new NoScenarioFoundException("scenario is not found")
         );

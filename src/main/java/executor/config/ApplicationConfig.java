@@ -1,6 +1,6 @@
 package executor.config;
 
-import executor.service.flow.FlowRunnerImpl;
+import executor.service.flow.FlowRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationContext;
@@ -18,6 +18,6 @@ public class ApplicationConfig {
 
     @Bean
     CommandLineRunner getCommandLineRunner() {
-        return this.applicationContext.getBean("flowRunnerImpl", FlowRunnerImpl.class);
+        return this.applicationContext.getBean("flowRunner", FlowRunner.class);
     }
 }
