@@ -20,9 +20,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 @Qualifier("flowRunnerImpl")
 public class FlowRunner implements CommandLineRunner {
     private static final Logger LOGGER = LogManager.getLogger(FlowRunner.class);
-    private final WorkerFlow workerFlow;
     private final ScenarioFlow scenarioFlow;
     private final ProxyFlow proxyFlow;
+    private final WorkerFlow workerFlow;
 
     @Autowired
     public FlowRunner(WorkerFlow workerFlow, ScenarioFlow scenarioFlow, ProxyFlow proxyFlow) {
