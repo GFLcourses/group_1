@@ -33,23 +33,11 @@ public class FlowRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        Queue<Scenario> scenarioQueue = new ConcurrentLinkedQueue<>();
-        Queue<ProxyConfigHolder> proxyQueue = new ConcurrentLinkedQueue<>();
-
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 CompletableFuture<Scenario> futureScenario = scenarioFlow.execute();
                 CompletableFuture<ProxyConfigHolder> futureProxyConfig = proxyFlow.execute();
-
-                if (futureProxyConfig.isDone() && futureScenario.isDone()) {
-                    workerFlow.work(futureScenario.get(), futureProxyConfig.get());
-                } else {
-                    if (!scenarioQueue.isEmpty() && !proxyQueue.isEmpty()) {
-                        workerFlow.work(scenarioQueue.poll(), proxyQueue.poll());
-                    }
-                    scenarioQueue.add(futureScenario.get());
-                    proxyQueue.add(futureProxyConfig.get());
-                }
+                workerFlow.work(futureScenario.get(), futureProxyConfig.get());
             } catch (Exception e) {
 //                e.printStackTrace();
             }
