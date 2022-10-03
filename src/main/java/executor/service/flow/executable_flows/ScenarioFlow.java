@@ -18,7 +18,7 @@ public class ScenarioFlow implements ExecutableFlow<Scenario> {
         this.scenarioSourceListener = scenarioSourceListener;
     }
 
-    @Async(value = "taskScheduler")
+    @Async
     @Override
     public CompletableFuture<Scenario> execute() {
         Scenario scenario = this.scenarioSourceListener.getScenario().orElseThrow(
