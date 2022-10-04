@@ -17,7 +17,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 @Service
-@Qualifier("flowRunnerImpl")
+@Qualifier("flowRunner")
 public class FlowRunner implements CommandLineRunner {
     private static final Logger LOGGER = LogManager.getLogger(FlowRunner.class);
     private final ScenarioFlow scenarioFlow;
@@ -41,17 +41,37 @@ public class FlowRunner implements CommandLineRunner {
                 CompletableFuture<Scenario> futureScenario = scenarioFlow.execute();
                 CompletableFuture<ProxyConfigHolder> futureProxyConfig = proxyFlow.execute();
 
-                if (futureProxyConfig.isDone() && futureScenario.isDone()) {
-                    workerFlow.work(futureScenario.get(), futureProxyConfig.get());
+                /**
+                 * actually first statement below is never true, but I remained it just in case
+                 */
+                if (futureScenario.isDone() && futureProxyConfig.isDone()) {
+                    var scenario = futureScenario.get();
+                    var proxyConfig = futureProxyConfig.get();
+                    if (scenario != null && proxyConfig != null) {
+                        workerFlow.work(scenario, proxyConfig);
+                    } else if (proxyConfig != null) {
+                        proxyQueue.add(proxyConfig);
+                    } else if (scenario != null) {
+                        scenarioQueue.add(scenario);
+                    }
                 } else {
+                    var scenario = futureScenario.get();
+                    if (scenario != null) {
+                        scenarioQueue.add(scenario);
+                    }
+                    var proxyConfig = futureProxyConfig.get();
+                    if (proxyConfig != null) {
+                        proxyQueue.add(proxyConfig);
+                    }
                     if (!scenarioQueue.isEmpty() && !proxyQueue.isEmpty()) {
                         workerFlow.work(scenarioQueue.poll(), proxyQueue.poll());
                     }
-                    scenarioQueue.add(futureScenario.get());
-                    proxyQueue.add(futureProxyConfig.get());
                 }
             } catch (Exception e) {
 //                e.printStackTrace();
+            }
+            if (args.length > 0 && args[0].equalsIgnoreCase("test")) {
+                return;
             }
         }
     }

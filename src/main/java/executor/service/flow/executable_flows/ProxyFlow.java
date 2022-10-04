@@ -18,7 +18,7 @@ public class ProxyFlow implements ExecutableFlow<ProxyConfigHolder> {
         this.proxySourcesClient = proxySourcesClient;
     }
 
-    @Async(value = "taskScheduler")
+    @Async
     @Override
     public CompletableFuture<ProxyConfigHolder> execute() {
         ProxyConfigHolder proxyConfigHolder = this.proxySourcesClient.getProxy().orElseThrow(

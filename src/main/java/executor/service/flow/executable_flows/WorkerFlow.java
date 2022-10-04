@@ -23,7 +23,7 @@ public class WorkerFlow {
         this.scenarioExecutor = scenarioExecutor;
     }
 
-    @Async(value = "taskScheduler")
+    @Async
     public void work(Scenario scenario, ProxyConfigHolder proxyConfigHolder) {
         WebDriver webDriver = null;
         try {
@@ -35,11 +35,11 @@ public class WorkerFlow {
             LOGGER.info("start execute scenario in worker: " + scenario.toString());
             scenarioExecutor.execute(scenario, webDriver);
             LOGGER.info("end execute scenario in worker");
-            webDriver.quit();
         } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
             assert webDriver != null;
             webDriver.quit();
-            throw new RuntimeException(e);
         }
     }
 }
