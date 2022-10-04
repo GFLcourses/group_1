@@ -13,15 +13,5 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @Configuration
 @EnableAsync(proxyTargetClass = true)
 public class ApplicationConfig {
-    private final ApplicationContext applicationContext;
 
-    @Autowired
-    public ApplicationConfig(ApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
-    }
-
-    @Bean
-    CommandLineRunner getCommandLineRunner() {
-        return this.applicationContext.getBean("flowRunner", FlowRunner.class);
-    }
 }
