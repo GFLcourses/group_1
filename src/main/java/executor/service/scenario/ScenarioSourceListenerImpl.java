@@ -1,37 +1,44 @@
 package executor.service.scenario;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import executor.model.Scenario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.io.InputStream;
 import java.util.Optional;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import okhttp3.*;
 
 @Service
 public class ScenarioSourceListenerImpl implements ScenarioSourceListener {
-    private static final Queue<Scenario> scenarios = new PriorityQueue<>();
+    private static final OkHttpClient okHttpClient = new OkHttpClient();
+
 
     @Autowired
-    public ScenarioSourceListenerImpl() {  }
+    public ScenarioSourceListenerImpl() {
 
-    static {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            scenarios.addAll(objectMapper.readValue(new File("/home/ubuntu/staff/someScenario.json"), new TypeReference<List<Scenario>>() {
-            }));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
+
 
     @Override
     public synchronized Optional<Scenario> getScenario() {
-        return Optional.ofNullable(scenarios.poll());
+        Request request = new Request.Builder()
+                .get()
+                .url("http://localhost:8080/getScenario")
+                .build();
+        Call call =okHttpClient.newCall(request);
+        Scenario scenario;
+        ObjectMapper objectMapper = new ObjectMapper();;
+        try {
+            Response response = call.execute();
+            InputStream in =response.body().byteStream();
+            scenario = objectMapper.readerFor(Scenario.class).readValue(in);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return Optional.ofNullable(scenario);
     }
+
 }
