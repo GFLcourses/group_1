@@ -4,47 +4,59 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import executor.model.ProxyCredentials;
 import executor.model.ProxyNetworkConfig;
 import executor.model.ProxyConfigHolder;
+import okhttp3.Call;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Optional;
-import java.util.PriorityQueue;
-import java.util.Queue;
 
 @Service
 public class ProxySourcesClientJson implements ProxySourcesClient {
-    private static final Queue<ProxyConfigHolder> PROXIES_QUEUE = new PriorityQueue<>();
+    private static final OkHttpClient okHttpClient = new OkHttpClient();
 
     protected ProxySourcesClientJson() {  }
 
-    static {
-        try {
-            readProxies();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public synchronized Optional<ProxyConfigHolder> getProxy() {
+        ProxyConfigHolder proxyConfigHolder = null;
+        ProxyNetworkConfig proxyNetworkConfig;
+        ProxyCredentials proxyCredentials;
+        ObjectMapper objectMapper = new ObjectMapper();
+        Request requestNetworkConfig = new Request.Builder()
+                .get()
+                .url("some url")
+                .build();
+        Call call = okHttpClient.newCall(requestNetworkConfig);
         try {
-            return Optional.ofNullable(PROXIES_QUEUE.poll());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            Response responseNetworkConfig = call.execute();
+            InputStream in =responseNetworkConfig.body().byteStream();
+            proxyNetworkConfig = objectMapper.readerFor(ProxyNetworkConfig.class).readValue(in);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
         }
-    }
-
-    protected static void readProxies() {
+        Request requestCredentials = new Request.Builder()
+                .get()
+                .url("some url")
+                .build();
+        Call call1 = okHttpClient.newCall(requestCredentials);
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            ProxyCredentials[] proxyCredentials = objectMapper.readValue(new File("/home/ubuntu/staff/ProxyCredentials.json"), ProxyCredentials[].class);
-            ProxyNetworkConfig[] proxyNetworkConfigs = objectMapper.readValue(new File("/home/ubuntu/staff/ProxyNetwork.json"), ProxyNetworkConfig[].class);
-
-            for (int i = 0; i < proxyNetworkConfigs.length; i++) {
-                PROXIES_QUEUE.add(new ProxyConfigHolder(proxyNetworkConfigs[i], proxyCredentials[i]));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            Response responseCredentials = call1.execute();
+            InputStream in =responseCredentials.body().byteStream();
+            proxyCredentials = objectMapper.readerFor(ProxyCredentials.class).readValue(in);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
         }
+
+        proxyConfigHolder.setProxyNetworkConfig(proxyNetworkConfig);
+        proxyConfigHolder.setProxyCredentials(proxyCredentials);
+
+
+        return Optional.ofNullable(proxyConfigHolder);
+
     }
 }
