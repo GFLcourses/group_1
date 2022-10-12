@@ -27,6 +27,7 @@ public class WorkerFlow {
     public void work(Scenario scenario, ProxyConfigHolder proxyConfigHolder) {
         WebDriver webDriver = null;
         try {
+            System.out.println(proxyConfigHolder);
             LOGGER.info("start webDriver init");
             System.out.println("webdriver start");
             webDriver = webDriverInitializer.initialize();
