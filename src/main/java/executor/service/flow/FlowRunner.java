@@ -70,8 +70,10 @@ public class FlowRunner implements CommandLineRunner {
             } catch (Exception e) {
 //                e.printStackTrace();
             }
-            if (args.length > 0 && args[0].equalsIgnoreCase("test")) {
-                return;
+            if (args.length > 0) {
+                if (args[0].equalsIgnoreCase("test")) {
+                    return;
+                }
             }
         }
     }
