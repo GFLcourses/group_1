@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.Optional;
 import okhttp3.*;
 
@@ -35,6 +34,7 @@ public class ScenarioSourceListenerImpl implements ScenarioSourceListener {
             var call = okHttpClient.newCall(request);
             var responseBody = call.execute().body();
             var objectMapper = new ObjectMapper();
+            assert responseBody != null;
             var scenario = objectMapper.readValue(responseBody.string(), Scenario.class);
 
             return Optional.ofNullable(scenario);

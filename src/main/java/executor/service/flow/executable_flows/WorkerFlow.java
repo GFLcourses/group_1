@@ -37,10 +37,11 @@ public class WorkerFlow {
             scenarioExecutor.execute(scenario, webDriver);
             LOGGER.info("end execute scenario in worker");
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            LOGGER.warn(e.toString());
         } finally {
-            assert webDriver != null;
-            webDriver.quit();
+            if (webDriver != null) {
+                webDriver.quit();
+            }
         }
     }
 }
