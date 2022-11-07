@@ -8,11 +8,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class ProxySourcesClientJson implements ProxySourcesClient {
-    private static final OkHttpClient okHttpClient = new OkHttpClient();
-
     @Value("${http.authorizationKey}")
     private String requestKey;
     @Value("${http.authorizationHeaderName}")
@@ -25,6 +24,10 @@ public class ProxySourcesClientJson implements ProxySourcesClient {
     @Override
     public synchronized Optional<ProxyConfigHolder> getProxy() {
         try {
+            OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
+                    .connectTimeout(60L, TimeUnit.SECONDS)
+                    .build();
+
             Request request = new Request.Builder()
                     .get()
                     .addHeader(requestHeader, requestKey)
