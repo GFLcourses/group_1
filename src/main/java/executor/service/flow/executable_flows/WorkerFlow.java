@@ -28,20 +28,25 @@ public class WorkerFlow {
         WebDriver webDriver = null;
         try {
             LOGGER.info("start webDriver init");
-            if (proxyConfigHolder != null) {
+
+            if (!proxyConfigHolder.isNull()) {
                 LOGGER.info("proxy: " + proxyConfigHolder);
                 System.out.println(proxyConfigHolder);
                 webDriver = webDriverInitializer.initialize(proxyConfigHolder);
             } else {
                 webDriver = webDriverInitializer.initialize();
             }
+
             LOGGER.info("end webDriver init");
             LOGGER.info("start execute scenario in worker: " + scenario);
             System.out.println("webdriver start");
+
             scenarioExecutor.execute(scenario, webDriver);
+
             System.out.println("webdriver end");
             LOGGER.info("end execute scenario in worker");
         } catch (Exception e) {
+            e.printStackTrace();
             LOGGER.warn(e.toString());
         } finally {
             if (webDriver != null) {

@@ -10,7 +10,7 @@ public class ScenarioSourceListenerImplTest {
 
     @Ignore
     public void getScenarioTest() {
-        Scenario scenario = scenarioSourceListener.getScenario().get();
+        Scenario scenario = scenarioSourceListener.getScenario();
         assertEquals(scenario.getName(),"test scenario 2");
         assertEquals(scenario.getSite(),"http://info.cern.ch");
         assertEquals(scenario.getSteps().size(),3);

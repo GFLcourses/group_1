@@ -3,14 +3,22 @@ package executor.model;
 import java.util.Objects;
 
 public class ProxyConfigHolder implements Comparable<ProxyConfigHolder> {
+    private boolean nullObject;
     private ProxyNetworkConfig proxyNetworkConfig;
     private ProxyCredentials proxyCredentials;
 
-    public ProxyConfigHolder() {  }
+    public ProxyConfigHolder() {
+        this.nullObject = true;
+    }
 
     public ProxyConfigHolder(ProxyNetworkConfig proxyNetworkConfig, ProxyCredentials proxyCredentials) {
         this.proxyNetworkConfig = proxyNetworkConfig;
         this.proxyCredentials = proxyCredentials;
+        this.nullObject = false;
+    }
+
+    public boolean isNull() {
+        return this.nullObject;
     }
 
     public ProxyNetworkConfig getProxyNetworkConfig() {
@@ -19,6 +27,7 @@ public class ProxyConfigHolder implements Comparable<ProxyConfigHolder> {
 
     public void setProxyNetworkConfig(ProxyNetworkConfig proxyNetworkConfig) {
         this.proxyNetworkConfig = proxyNetworkConfig;
+        this.nullObject = false;
     }
 
     public ProxyCredentials getProxyCredentials() {
@@ -27,6 +36,7 @@ public class ProxyConfigHolder implements Comparable<ProxyConfigHolder> {
 
     public void setProxyCredentials(ProxyCredentials proxyCredentials) {
         this.proxyCredentials = proxyCredentials;
+        this.nullObject = false;
     }
 
     @Override

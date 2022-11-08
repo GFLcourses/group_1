@@ -26,7 +26,7 @@ public class ProxySourcesClientJsonTest {
     public void getProxyTest() {
         List<ProxyConfigHolder> proxies = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            proxies.add(proxySourcesClientJson.getProxy().get());
+            proxies.add(proxySourcesClientJson.getProxy());
         }
 
         List<ProxyConfigHolder> expectationProxies = List.of(

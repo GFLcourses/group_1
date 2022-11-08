@@ -3,17 +3,25 @@ package executor.model;
 import java.util.List;
 import java.util.Objects;
 
-public class Scenario implements Comparable<Scenario>{
+public class Scenario implements Comparable<Scenario> {
+    private boolean nullObject;
     private String name;
     private String site;
     private List<Step> steps;
 
-    public Scenario() {  }
+    public Scenario() {
+        this.nullObject = true;
+    }
 
     public Scenario(String name, String site, List<Step> steps) {
         this.name = name;
         this.site = site;
         this.steps = steps;
+        this.nullObject = false;
+    }
+
+    public boolean isNull() {
+        return this.nullObject;
     }
 
     public String getName() {
@@ -22,6 +30,7 @@ public class Scenario implements Comparable<Scenario>{
 
     public void setName(String name) {
         this.name = name;
+        this.nullObject = false;
     }
 
     public String getSite() {
@@ -30,6 +39,7 @@ public class Scenario implements Comparable<Scenario>{
 
     public void setSite(String site) {
         this.site = site;
+        this.nullObject = false;
     }
 
     public List<Step> getSteps() {
@@ -38,6 +48,7 @@ public class Scenario implements Comparable<Scenario>{
 
     public void setSteps(List<Step> steps) {
         this.steps = steps;
+        this.nullObject = false;
     }
 
     @Override

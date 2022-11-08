@@ -1,6 +1,5 @@
 package executor.service.flow.executable_flows;
 
-import executor.exception.NoScenarioFoundException;
 import executor.model.Scenario;
 import executor.service.scenario.ScenarioSourceListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +20,7 @@ public class ScenarioFlow implements ExecutableFlow<Scenario> {
     @Async
     @Override
     public CompletableFuture<Scenario> execute() {
-        Scenario scenario = this.scenarioSourceListener.getScenario().orElseThrow(
-                () -> new NoScenarioFoundException("scenario is not found")
-        );
+        Scenario scenario = this.scenarioSourceListener.getScenario();
         return CompletableFuture.completedFuture(scenario);
     }
 }
