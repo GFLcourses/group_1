@@ -4,9 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import executor.model.Scenario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import okhttp3.*;
 
 @Service
@@ -24,7 +24,7 @@ public class ScenarioSourceListenerImpl implements ScenarioSourceListener {
     public ScenarioSourceListenerImpl() {  }
 
     @Override
-    public synchronized Optional<Scenario> getScenario() {
+    public synchronized Scenario getScenario() {
         try {
             Request request = new Request.Builder()
                     .get()
@@ -32,12 +32,12 @@ public class ScenarioSourceListenerImpl implements ScenarioSourceListener {
                     .url(requestUrl)
                     .build();
             var call = okHttpClient.newCall(request);
-            var responseBody = call.execute().body();
-            var objectMapper = new ObjectMapper();
-            assert responseBody != null;
-            var scenario = objectMapper.readValue(responseBody.string(), Scenario.class);
+            var response = call.execute();
 
-            return Optional.ofNullable(scenario);
+            if (response.code() == HttpStatus.OK.value()) {
+                return new ObjectMapper().readValue(response.body().string(), Scenario.class);
+            }
+            return new Scenario();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

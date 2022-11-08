@@ -1,6 +1,5 @@
 package executor.service.flow.executable_flows;
 
-import executor.exception.NoProxyFoundException;
 import executor.model.ProxyConfigHolder;
 import executor.service.proxy.ProxySourcesClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +20,7 @@ public class ProxyFlow implements ExecutableFlow<ProxyConfigHolder> {
     @Async
     @Override
     public CompletableFuture<ProxyConfigHolder> execute() {
-        try {
-            ProxyConfigHolder proxyConfigHolder = this.proxySourcesClient.getProxy().orElseThrow(
-                    () -> new NoProxyFoundException("proxy is not presented")
-            );
-            return CompletableFuture.completedFuture(proxyConfigHolder);
-        } catch (Exception e) {
-            return null;
-        }
+        ProxyConfigHolder proxyConfigHolder = this.proxySourcesClient.getProxy();
+        return CompletableFuture.completedFuture(proxyConfigHolder);
     }
 }
