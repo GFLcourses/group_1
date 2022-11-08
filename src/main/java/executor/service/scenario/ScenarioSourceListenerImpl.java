@@ -9,16 +9,18 @@ import org.springframework.stereotype.Service;
 
 import okhttp3.*;
 
+import java.util.concurrent.TimeUnit;
+
 @Service
 public class ScenarioSourceListenerImpl implements ScenarioSourceListener {
-    private static final OkHttpClient okHttpClient = new OkHttpClient();
-
     @Value("${http.authorizationKey}")
     private String requestKey;
     @Value("${http.authorizationHeaderName}")
     private String requestHeader;
     @Value("${http.scenarioUrl}")
     private String requestUrl;
+    @Value("${http.readTimeOut}")
+    private Long connectionTimeAwait;
 
     @Autowired
     public ScenarioSourceListenerImpl() {  }
@@ -26,6 +28,12 @@ public class ScenarioSourceListenerImpl implements ScenarioSourceListener {
     @Override
     public synchronized Scenario getScenario() {
         try {
+            OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
+                    .connectTimeout(connectionTimeAwait, TimeUnit.SECONDS)
+                    .readTimeout(connectionTimeAwait, TimeUnit.SECONDS)
+                    .writeTimeout(connectionTimeAwait, TimeUnit.SECONDS)
+                    .build();
+
             Request request = new Request.Builder()
                     .get()
                     .addHeader(requestHeader, requestKey)

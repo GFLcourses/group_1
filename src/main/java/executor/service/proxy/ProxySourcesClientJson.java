@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.TimeUnit;
+
 @Service
 public class ProxySourcesClientJson implements ProxySourcesClient {
     @Value("${http.authorizationKey}")
@@ -16,6 +18,8 @@ public class ProxySourcesClientJson implements ProxySourcesClient {
     private String requestHeader;
     @Value("${http.proxyUrl}")
     private String requestUrl;
+    @Value("${http.readTimeOut}")
+    private Long connectionTimeAwait;
 
     protected ProxySourcesClientJson() {  }
 
@@ -23,6 +27,9 @@ public class ProxySourcesClientJson implements ProxySourcesClient {
     public synchronized ProxyConfigHolder getProxy() {
         try {
             OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
+                    .connectTimeout(connectionTimeAwait, TimeUnit.SECONDS)
+                    .readTimeout(connectionTimeAwait, TimeUnit.SECONDS)
+                    .writeTimeout(connectionTimeAwait, TimeUnit.SECONDS)
                     .build();
 
             Request request = new Request.Builder()
