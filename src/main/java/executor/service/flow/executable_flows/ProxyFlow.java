@@ -21,9 +21,13 @@ public class ProxyFlow implements ExecutableFlow<ProxyConfigHolder> {
     @Async
     @Override
     public CompletableFuture<ProxyConfigHolder> execute() {
-        ProxyConfigHolder proxyConfigHolder = this.proxySourcesClient.getProxy().orElseThrow(
-                () -> new NoProxyFoundException("proxy is not presented")
-        );
-        return CompletableFuture.completedFuture(proxyConfigHolder);
+        try {
+            ProxyConfigHolder proxyConfigHolder = this.proxySourcesClient.getProxy().orElseThrow(
+                    () -> new NoProxyFoundException("proxy is not presented")
+            );
+            return CompletableFuture.completedFuture(proxyConfigHolder);
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

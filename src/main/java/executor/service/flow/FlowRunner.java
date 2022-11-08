@@ -65,10 +65,12 @@ public class FlowRunner implements CommandLineRunner {
                     }
                     if (!scenarioQueue.isEmpty() && !proxyQueue.isEmpty()) {
                         workerFlow.work(scenarioQueue.poll(), proxyQueue.poll());
+                    } else if (!scenarioQueue.isEmpty()) {
+                        workerFlow.work(scenarioQueue.poll(), null);
                     }
                 }
             } catch (Exception e) {
-//                e.printStackTrace();
+                e.printStackTrace();
             }
             if (args.length > 0) {
                 if (args[0].equalsIgnoreCase("test")) {

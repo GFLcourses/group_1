@@ -27,20 +27,26 @@ public class WorkerFlow {
     public void work(Scenario scenario, ProxyConfigHolder proxyConfigHolder) {
         WebDriver webDriver = null;
         try {
-            System.out.println(proxyConfigHolder);
             LOGGER.info("start webDriver init");
-            System.out.println("webdriver start");
-            webDriver = webDriverInitializer.initialize();
-            System.out.println("webdriver end");
+            if (proxyConfigHolder != null) {
+                LOGGER.info("proxy: " + proxyConfigHolder);
+                System.out.println(proxyConfigHolder);
+                webDriver = webDriverInitializer.initialize(proxyConfigHolder);
+            } else {
+                webDriver = webDriverInitializer.initialize();
+            }
             LOGGER.info("end webDriver init");
-            LOGGER.info("start execute scenario in worker: " + scenario.toString());
+            LOGGER.info("start execute scenario in worker: " + scenario);
+            System.out.println("webdriver start");
             scenarioExecutor.execute(scenario, webDriver);
+            System.out.println("webdriver end");
             LOGGER.info("end execute scenario in worker");
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            LOGGER.warn(e.toString());
         } finally {
-            assert webDriver != null;
-            webDriver.quit();
+            if (webDriver != null) {
+                webDriver.quit();
+            }
         }
     }
 }
