@@ -29,7 +29,7 @@ public class WorkerFlow {
         try {
             LOGGER.info("start webDriver init");
 
-            if (!proxyConfigHolder.isNull()) {
+            if (proxyConfigHolder != null) {
                 LOGGER.info("proxy: " + proxyConfigHolder);
                 System.out.println(proxyConfigHolder);
                 webDriver = webDriverInitializer.initialize(proxyConfigHolder);
