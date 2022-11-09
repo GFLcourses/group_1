@@ -38,16 +38,17 @@ public class FlowRunner implements CommandLineRunner {
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 CompletableFuture<Scenario> futureScenario = scenarioFlow.execute();
-                CompletableFuture<ProxyConfigHolder> futureProxyConfig = proxyFlow.execute();
+                Scenario scenario = futureScenario.get();
 
-                var scenario = futureScenario.get();
-                if (!scenario.isNull()) {
+                if (!scenario.isNull() || !scenarioQueue.isEmpty()) {
+                    CompletableFuture<ProxyConfigHolder> futureProxyConfig = proxyFlow.execute();
                     scenarioQueue.add(scenario);
 
-                    var proxyConfig = futureProxyConfig.get();
-                    if (!scenarioQueue.isEmpty()) {
+                    ProxyConfigHolder proxyConfig = futureProxyConfig.get();///
+                    System.out.println(proxyConfig);
+                    if (!scenarioQueue.isEmpty() && !proxyConfig.isNull()) {
                         workerFlow.work(scenarioQueue.poll(), proxyConfig);
-                    } else {
+                    } else if (!scenarioQueue.isEmpty()) {
                         workerFlow.work(scenarioQueue.poll(), null);
                     }
                 }
